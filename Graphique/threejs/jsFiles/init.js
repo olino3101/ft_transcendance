@@ -36,9 +36,6 @@ export function initPlayer(scene, camera) {
 	player.position.x = (camera.position.z * -1) / 1.7;
 	player.position.z = (camera.position.x * 1) / 1.7;
 
-	console.log(camera.position);
-	console.log(player.position);
-
 	playerTwo.position.x = (camera.position.z * 1) / 1.7;
 	playerTwo.position.z = (camera.position.x * -1) / 1.7;
 
@@ -91,7 +88,7 @@ export function createGameBall(scene, camera) {
 	const ball = new THREE.Mesh(geometry, material);
 	scene.add(ball);
 	// change on who starts with the ball
-	ball.position.x = 10;
-	ball.rotation.y = camera.rotation.y;
+	ball.quaternion.copy(camera.quaternion);
+	ball.translateX(10);
 	return ball;
 }

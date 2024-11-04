@@ -17,10 +17,9 @@ export function playerControl(players, keys) {
 
 export function startGame(keys) {
 	if (keys['t'])
-		{
-			console.log('sdfgdfgdfgd');
-		return true
-
+	{
+		console.log('sdfgdfgdfgd');
+		return true;
 	}
 }
 

@@ -51,13 +51,7 @@ function animate() {
 animate();
 // when the game is running
 function gameLoop() {
-	if (!game)
-	{
-	console.log(camera.rotation.y);
-	game = startGame(keys);
-
-
-	}
+	if (!game) {game = startGame(keys);}
 	if (game && !players && !ball)
 	{
 		console.log('bab');
