@@ -209,15 +209,13 @@
               <div class="text-dark">Playing</div>
             </div>
           </div>
-        <!-- BOUTTON MENU MOBILE --><!-- Button trigger modal desktop -->
-        <!-- Bouton Menu Mobile -->
-        <div class="sidebar">
-          <div class="top-left-menu">
-            <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasMenu" id="offcanvasBtn" tabindex="-1" role="button" aria-label="Open main menu">
-              <i class="bi bi-list"></i>
-            </a>
-            <span class="menu-label">MENU</span>
-          </div>
+        <!-- NEW SIMPLE HAMBURGER MENU -->
+        <div id="newHamburgerMenu">
+          <button id="menuButton" aria-label="Open menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
 
         <!-- PROFILE BOTTOM && LOGOUT BOTTON-->
@@ -476,23 +474,19 @@
         </div>
 
 
-        <!-- SIDEBAR MENU -->
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasHeader" aria-hidden="true" role="dialog">
-          <div class="offcanvas-header h-10">
-            <h1 class="offcanvas-title" id="offcanvasHeader">MENU</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <!-- NEW SIMPLE DROPDOWN MENU -->
+        <div id="simpleDropdown" class="simple-dropdown" style="display: none;">
+          <div class="dropdown-header">
+            <h2>MENU</h2>
+            <button id="closeDropdown" aria-label="Close menu">×</button>
           </div>
-
-          <div class="offcanvas-body">
-            <!-- the menu items -->
-            <div class="d-grid gap-2 col-10 mx-auto position-absolute top-50 start-50 translate-middle">
-              <button class="btn btn-primary" id="settingsBtn" type="button" aria-label="Open settings modal">Settings</button>
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#statisticModal" id="statisticsBtn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Open Statistics modal">Statistics</button>
-              <button class="btn btn-primary" id="tournamentBtn" type="button" data-bs-toggle="modal" data-bs-target="#tournament" aria-haspopup="dialog" aria-expanded="false" aria-label="Open tournament modal">Tournament</button>
-              <!-- <button class="btn btn-primary" id="tournamentBtn" type="button">Tournament</button> -->
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#historyModal" id="historyBtn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Open history modal">History</button>
-            </div>
+          <div class="dropdown-body">
+            <button id="newSettingsBtn" class="menu-item-btn">Settings</button>
+            <button id="newStatisticsBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#statisticModal">Statistics</button>
+            <button id="newTournamentBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#tournament">Tournament</button>
+            <button id="newHistoryBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#historyModal">History</button>
           </div>
+        </div>
 
 
            <!-- MODAL FOR STATISTICS -->

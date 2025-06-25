@@ -142,7 +142,10 @@ function displayStatistics(data) {
 }
 
 export function setupStats() {
-    document.getElementById('statisticsBtn').addEventListener('click', function() {
-        fetchUserStatistics();
-    });
+    const statisticsBtn = document.getElementById('newStatisticsBtn');
+    if (statisticsBtn) {
+        statisticsBtn.addEventListener('click', function() {
+            fetchUserStatistics();
+        });
+    }
 }

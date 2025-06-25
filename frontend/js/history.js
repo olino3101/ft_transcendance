@@ -79,7 +79,10 @@ export async function getHistory() {
 }
 
 export function handleHistory() {
-	document.getElementById('historyBtn').addEventListener('click', function() {
-		getHistory();
-	});
+	const historyBtn = document.getElementById('newHistoryBtn');
+	if (historyBtn) {
+		historyBtn.addEventListener('click', function() {
+			getHistory();
+		});
+	}
 }

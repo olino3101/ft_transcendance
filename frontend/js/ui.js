@@ -378,11 +378,14 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 export function checkNewTournament(game) {
-    document.getElementById(`tournamentBtn`).addEventListener('click', () => {
-        if (game.isTournament) {
-            resetTournament();
-        }
-    });
+    const tournamentBtn = document.getElementById(`newTournamentBtn`);
+    if (tournamentBtn) {
+        tournamentBtn.addEventListener('click', () => {
+            if (game.isTournament) {
+                resetTournament();
+            }
+        });
+    }
 }
 
 export let moveUp = false;
@@ -638,75 +641,91 @@ function closeCustomModal() {
 window.closeCustomModal = closeCustomModal;
 window.openCustomModal = openCustomModal;
 
-// SUPER SIMPLE SIDEBAR BUTTON HANDLER
+// NEW SIMPLE HAMBURGER MENU HANDLER
 document.addEventListener('DOMContentLoaded', function () {
   // Clean up any existing modals on load
   cleanupModals();
   
-  // Wait for everything to load
-  setTimeout(() => {
-    // Handle Settings button specifically with custom modal - NO BOOTSTRAP
-    const settingsBtn = document.getElementById('settingsBtn');
-    if (settingsBtn) {
-      console.log('Settings button found, adding click handler');
-      
-      settingsBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        console.log('Settings button clicked');
-        
-        // Close offcanvas first
-        const offcanvasMenu = document.getElementById('offcanvasMenu');
-        if (offcanvasMenu && window.bootstrap && window.bootstrap.Offcanvas) {
-          const offcanvasInstance = window.bootstrap.Offcanvas.getInstance(offcanvasMenu);
-          if (offcanvasInstance) {
-            offcanvasInstance.hide();
-          }
-        }
-        
-        // Open custom modal after short delay
-        setTimeout(() => {
-          console.log('Opening custom settings modal');
-          openCustomModal();
-        }, 300);
-      });
-    } else {
-      console.error('Settings button not found!');
+  console.log('Setting up new hamburger menu...');
+  
+  // Get elements
+  const menuButton = document.getElementById('menuButton');
+  const dropdown = document.getElementById('simpleDropdown');
+  const closeDropdown = document.getElementById('closeDropdown');
+  const newSettingsBtn = document.getElementById('newSettingsBtn');
+  
+  // Function to show dropdown
+  function showDropdown() {
+    if (dropdown) {
+      dropdown.style.display = 'block';
+      console.log('Dropdown shown');
     }
-
-    // Handle other modal buttons (keep Bootstrap for now)
-    const otherModalBtns = document.querySelectorAll('#offcanvasMenu [data-bs-toggle="modal"]');
-    console.log('Found other modal buttons:', otherModalBtns.length);
-    
-    otherModalBtns.forEach(btn => {
-      btn.addEventListener('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const targetModal = btn.getAttribute('data-bs-target');
-        
-        if (targetModal) {
-          // Close offcanvas
-          const offcanvasMenu = document.getElementById('offcanvasMenu');
-          if (offcanvasMenu && window.bootstrap && window.bootstrap.Offcanvas) {
-            const offcanvasInstance = window.bootstrap.Offcanvas.getInstance(offcanvasMenu);
-            if (offcanvasInstance) {
-              offcanvasInstance.hide();
-            }
-          }
-          
-          // Open other modals with Bootstrap
-          setTimeout(() => {
-            const modalEl = document.querySelector(targetModal);
-            if (modalEl && window.bootstrap && window.bootstrap.Modal) {
-              const modalInstance = new window.bootstrap.Modal(modalEl);
-              modalInstance.show();
-            }
-          }, 300);
-        }
-      });
+  }
+  
+  // Function to hide dropdown
+  function hideDropdown() {
+    if (dropdown) {
+      dropdown.style.display = 'none';
+      console.log('Dropdown hidden');
+    }
+  }
+  
+  // Menu button click handler
+  if (menuButton) {
+    menuButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Menu button clicked');
+      
+      if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+        showDropdown();
+      } else {
+        hideDropdown();
+      }
     });
-  }, 500);
+    console.log('Menu button handler added');
+  }
+  
+  // Close dropdown button
+  if (closeDropdown) {
+    closeDropdown.addEventListener('click', function(e) {
+      e.preventDefault();
+      hideDropdown();
+    });
+    console.log('Close dropdown handler added');
+  }
+  
+  // Settings button - open custom modal
+  if (newSettingsBtn) {
+    newSettingsBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('Settings clicked');
+      hideDropdown();
+      setTimeout(() => {
+        openCustomModal();
+      }, 200);
+    });
+    console.log('Settings button handler added');
+  }
+  
+  // Other modal buttons
+  const modalBtns = document.querySelectorAll('.menu-item-btn[data-bs-toggle="modal"]');
+  modalBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      hideDropdown();
+      // Let Bootstrap handle the modal opening
+    });
+  });
+  
+  // Click outside to close dropdown
+  document.addEventListener('click', function(e) {
+    if (dropdown && 
+        !dropdown.contains(e.target) && 
+        !menuButton.contains(e.target) &&
+        dropdown.style.display === 'block') {
+      hideDropdown();
+    }
+  });
 
   // ESC key to close custom modal
   document.addEventListener('keydown', function(e) {
