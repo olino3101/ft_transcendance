@@ -158,7 +158,18 @@ const dictionary = {
     "hist-result" : "Result",
     "hist-time" : "Time",
     "general-conditions-link1" : "General Terms and Conditions",
-    "general-conditions-link1" : "I agree to the terms and conditions",
+    "general-conditions-link2" : "I agree to the terms and conditions",
+    "remove-friend" : "Remove Friend",
+    "playing-text" : "Playing",
+    "playing-text2" : "Playing",
+    "lang-english" : "English",
+    "lang-french" : "Français", 
+    "lang-japanese" : "日本語",
+    "pong-title" : "PONG PONG PONG 🏓",
+    "menu-header" : "MENU",
+    "profile-header" : "PROFILE",
+    "settings-header" : "SETTINGS",
+    "controls-header" : "GAME CONTROLS",
     "codeInput" : "Enter the 6-digit code sent to your email",
     "twofactor" : "Two-Factors Authentification",
     "validate-otp-btn" : "Validate OTP",
@@ -326,9 +337,18 @@ fr: {
     "codeInput": "Entrez le code à 6 chiffres envoyé à votre e-mail",
     "twofactor": "Authentification à deux facteurs",
     "validate-otp-btn": "Valider OTP",
-    "otp-input": "Entrez votre OTP"
-    
-    
+    "otp-input": "Entrez votre OTP",
+    "remove-friend" : "Supprimer un ami",
+    "playing-text" : "En cours",
+    "playing-text2" : "En cours",
+    "lang-english" : "English",
+    "lang-french" : "Français", 
+    "lang-japanese" : "日本語",
+    "pong-title" : "PONG PONG PONG 🏓",
+    "menu-header" : "MENU",
+    "profile-header" : "PROFIL",
+    "settings-header" : "PARAMÈTRES",
+    "controls-header" : "COMMANDES DU JEU"
 },
 jp: {
     singlePlayer: "シングルプレイヤー",
@@ -493,7 +513,18 @@ jp: {
     "codeInput": "メールに送信された6桁のコードを入力してください",
     "twofactor": "二要素認証",
     "validate-otp-btn": "OTPを検証する",
-    "otp-input": "OTPを入力してください"
+    "otp-input": "OTPを入力してください",
+    "remove-friend" : "友達を削除",
+    "playing-text" : "プレイ中",
+    "playing-text2" : "プレイ中",
+    "lang-english" : "English",
+    "lang-french" : "Français", 
+    "lang-japanese" : "日本語",
+    "pong-title" : "PONG PONG PONG 🏓",
+    "menu-header" : "メニュー",
+    "profile-header" : "プロフィール",
+    "settings-header" : "設定",
+    "controls-header" : "ゲームコントロール"
 
 }
 };
@@ -504,11 +535,22 @@ function changeLanguageProcess(language) {
     Object.keys(select).forEach(id => {
         const element = document.getElementById(id);
         if (element) {
-            element.textContent = select[id];
+            // Handle different element types
+            if (element.tagName === 'INPUT' && element.type === 'text') {
+                element.placeholder = select[id];
+            } else if (element.tagName === 'OPTION') {
+                element.textContent = select[id];
+            } else {
+                element.textContent = select[id];
+            }
         }
-        // const inputElement = document.getElementById("otp-input");
-        // inputElement.placeholder = dictionary[language]["otp-input"];
     });
+    
+    // Handle placeholder text specifically
+    const otpInput = document.getElementById("otp-input");
+    if (otpInput && dictionary[language]["otp-input"]) {
+        otpInput.placeholder = dictionary[language]["otp-input"];
+    }
 }
 
 export function changeLanguage() {

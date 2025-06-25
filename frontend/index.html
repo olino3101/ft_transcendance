@@ -14,7 +14,7 @@
   <body>
 
     <div id="preliminary-step">
-      <h1 class="pong-title">PONG PONG PONG 🏓</h1>
+      <h1 class="pong-title" id="pong-title">PONG PONG PONG 🏓</h1>
       <div class="prelim-buttons">
         <button
           type="button"
@@ -200,13 +200,13 @@
 
           <div id="alignment-container" class="text-center">
             <div id="PlayerOne" class="PlayerOne text-center text=light">
-                <div class="text-dark">Playing</div>
+                <div class="text-dark" id="playing-text">Playing</div>
             </div>
             <div id="winnerTournament" class="winnerTournament text-center text=light">
               <div class="text-dark">The Winner is </div>
             </div>
             <div id="PlayerTwo" class="PlayerTwo text-center">
-              <div class="text-dark">Playing</div>
+              <div class="text-dark" id="playing-text2">Playing</div>
             </div>
           </div>
         <!-- NEW SIMPLE HAMBURGER MENU -->
@@ -475,14 +475,14 @@
         <!-- NEW SIMPLE DROPDOWN MENU -->
         <div id="simpleDropdown" class="simple-dropdown" style="display: none;">
           <div class="dropdown-header">
-            <h2>MENU</h2>
+            <h2 id="menu-header">MENU</h2>
             <button id="closeDropdown" aria-label="Close menu">×</button>
           </div>
           <div class="dropdown-body">
-            <button id="newSettingsBtn" class="menu-item-btn">Settings</button>
-            <button id="newStatisticsBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#statisticModal">Statistics</button>
-            <button id="newTournamentBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#tournament">Tournament</button>
-            <button id="newHistoryBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#historyModal">History</button>
+            <button id="settingsBtn" class="menu-item-btn">Settings</button>
+            <button id="statisticsBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#statisticModal">Statistics</button>
+            <button id="tournamentBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#tournament">Tournament</button>
+            <button id="historyBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#historyModal">History</button>
           </div>
         </div>
 
@@ -665,7 +665,7 @@
         <div class="custom-modal-content">
           <!-- Modal Header -->
           <div class="custom-modal-header">
-            <h1>PROFILE</h1>
+            <h1 id="profile-header">PROFILE</h1>
             <button type="button" class="custom-close-btn" onclick="closeCustomProfileModal()">×</button>
           </div>
 
@@ -746,7 +746,7 @@
         <div class="custom-modal-content">
           <!-- Modal Header -->
           <div class="custom-modal-header">
-            <h1>GAME CONTROLS</h1>
+            <h1 id="controls-header">GAME CONTROLS</h1>
             <button type="button" class="custom-close-btn" onclick="closeCustomControlsModal()">×</button>
           </div>
 
@@ -887,7 +887,7 @@
         <div class="custom-modal-content">
           <!-- Modal Header -->
           <div class="custom-modal-header">
-            <h1>SETTINGS</h1>
+            <h1 id="settings-header">SETTINGS</h1>
             <button type="button" class="custom-close-btn" onclick="closeCustomModal()">×</button>
           </div>
 
@@ -924,9 +924,9 @@
             <div class="setting-row">
               <label for="languageSelection">Choose Language</label>
               <select id="languageSelection">
-                <option value="1">English</option>
-                <option value="2">Français</option>
-                <option value="3">日本語</option>
+                <option value="1" id="lang-english">English</option>
+                <option value="2" id="lang-french">Français</option>
+                <option value="3" id="lang-japanese">日本語</option>
               </select>
             </div>
 

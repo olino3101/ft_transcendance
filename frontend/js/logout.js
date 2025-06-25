@@ -1,7 +1,7 @@
 import { getCookie } from "./cookie";
 import { updateStatus } from "./updateStatus";
 
-async function logout() {
+export async function logout() {
     const jwtToken = getCookie('access_token');
 	const refreshJwtToken = getCookie('refresh_token');
 
@@ -26,8 +26,7 @@ async function logout() {
 }
 
 export function logoutUser() {
-	document.getElementById('logoutModal').addEventListener('click', () => {
-        updateStatus("isOnline", false);
-		logout();
-	});
+	// Logout is now handled by the custom menu system in ui.js
+	// This function is kept for compatibility but does nothing
+	console.log('logoutUser() called - handled by custom system');
 }

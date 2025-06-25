@@ -148,23 +148,44 @@ canvas {
     text-align: left;
 }
 
-.offcanvas .btn-close {
-    font-size: 2.2rem;
-    color: #fff !important;
+/* Unified Bootstrap close button style to match custom buttons */
+.btn-close {
+    font-size: 2rem !important;
+    color: var(--text-color) !important;
     opacity: 1 !important;
-    filter: drop-shadow(0 0 4px var(--accent-glow));
     background: none !important;
     border: none !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 4px !important;
+    transition: all 0.3s ease !important;
+    font-weight: normal !important;
+    line-height: 1 !important;
+    padding: 0 !important;
+}
+
+/* Ensure all Bootstrap close buttons show the × symbol */
+.btn-close::before {
+    content: "×" !important;
+    font-size: 2rem !important;
+    display: block !important;
+}
+
+.btn-close:focus, .btn-close:hover {
+    color: white !important;
+    background-color: var(--accent-glow) !important;
+    outline: none !important;
+    transform: scale(1.1) !important;
+    box-shadow: none !important;
+}
+
+.offcanvas .btn-close {
     margin-left: 16px;
     margin-right: 0;
     z-index: 2001;
-}
-
-.offcanvas .btn-close:focus, .offcanvas .btn-close:hover {
-    color: var(--accent-glow) !important;
-    background: none !important;
-    outline: none;
-    box-shadow: 0 0 8px var(--accent-glow);
 }
 
 #offcanvasMenu .offcanvas-header {
@@ -575,25 +596,29 @@ menu.hidden {
 	text-shadow: var(--glow);
 }
 
-.custom-close-btn {
+/* Unified close button style for all X buttons */
+.custom-close-btn, #closeDropdown {
 	background: none;
 	border: none;
 	color: var(--text-color);
 	font-size: 2rem;
 	cursor: pointer;
 	padding: 0;
-	width: 30px;
-	height: 30px;
+	width: 32px;
+	height: 32px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	border-radius: 4px;
-	transition: background-color 0.3s;
+	transition: all 0.3s ease;
+	font-weight: normal;
+	line-height: 1;
 }
 
-.custom-close-btn:hover {
+.custom-close-btn:hover, #closeDropdown:hover {
 	background-color: var(--accent-glow);
 	color: white;
+	transform: scale(1.1);
 }
 
 .custom-modal-body {
@@ -928,26 +953,7 @@ input[type="checkbox"] {
 	letter-spacing: 0.1em;
 }
 
-#closeDropdown {
-	background: none;
-	border: none;
-	color: var(--text-color);
-	font-size: 1.8rem;
-	cursor: pointer;
-	padding: 0;
-	width: 30px;
-	height: 30px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 4px;
-	transition: all 0.3s ease;
-}
-
-#closeDropdown:hover {
-	background: var(--accent-glow);
-	color: white;
-}
+/* #closeDropdown styles now handled by unified close button style above */
 
 .dropdown-body {
 	padding: 15px;

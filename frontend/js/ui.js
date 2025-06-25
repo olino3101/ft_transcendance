@@ -28,20 +28,26 @@ export function SaveSettings(difficultyAI, nbBall) {
 
 // reset les points lorsque on disconect et affiche le bon menu
 export function logout( points, game, walls, players, ball) {
-    document.getElementById('logoutModal').addEventListener('click', () => {
-        resetGame(walls, players, ball, game, points);
-        if( game.isTournament)
-        {
-            endTournament();
-            resetTournament();
-            game.isTournament = false;
-            game.isPlaying = false;
-            game.isactive = false;
-            hideGame(walls, players, ball);
-            document.getElementById(`menu`).style.display = 'block';
-            ensureMenuFlex();
+    const logoutBtn = document.getElementById('newLogoutButton');
+    if (logoutBtn) {
+        // Only add listener if it hasn't been added by our custom system
+        if (!logoutBtn.hasAttribute('data-custom-handler')) {
+            logoutBtn.addEventListener('click', () => {
+                resetGame(walls, players, ball, game, points);
+                if( game.isTournament)
+                {
+                    endTournament();
+                    resetTournament();
+                    game.isTournament = false;
+                    game.isPlaying = false;
+                    game.isactive = false;
+                    hideGame(walls, players, ball);
+                    document.getElementById(`menu`).style.display = 'block';
+                    ensureMenuFlex();
+                }
+            });
         }
-    });
+    }
 }
 
 // le bouton single player
@@ -684,8 +690,26 @@ function closeCustomControlsModal() {
 }
 
 // LOGOUT FUNCTION
-function handleLogout() {
+async function handleLogout() {
   console.log('handleLogout() called');
+  
+  // Update status and call logout API
+  try {
+    // Import functions
+    const { updateStatus } = await import('./updateStatus.js');
+    const { logout } = await import('./logout.js');
+    
+    if (updateStatus) {
+      updateStatus("isOnline", false);
+    }
+    
+    if (logout) {
+      await logout();
+    }
+  } catch (error) {
+    console.log('Status update or logout API call failed:', error);
+  }
+  
   const canvas = document.getElementById('bg');
   const preliminaryStep = document.getElementById('preliminary-step');
   const mainContent = document.getElementById('main-content');
@@ -768,8 +792,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   
   // Settings button - open custom modal
-  if (newSettingsBtn) {
-    newSettingsBtn.addEventListener('click', function(e) {
+  const settingsBtn = document.getElementById('settingsBtn');
+  if (settingsBtn) {
+    settingsBtn.addEventListener('click', function(e) {
       e.preventDefault();
       console.log('Settings clicked');
       hideDropdown();
@@ -820,6 +845,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Logout button - handle logout
   const newLogoutBtn = document.getElementById('newLogoutButton');
   if (newLogoutBtn) {
+    newLogoutBtn.setAttribute('data-custom-handler', 'true');
     newLogoutBtn.addEventListener('click', function(e) {
       e.preventDefault();
       console.log('Logout clicked');
