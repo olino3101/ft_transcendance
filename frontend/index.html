@@ -26,7 +26,7 @@
           Login
         </button>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal" id="registerModalBtn" aria-haspopup="dialog"
-        aria-expanded="false" aria-label="Open register modal">Register</button>
+        aria-expanded="false" aria-label="Open register modal"><span id="registerModalBtn-text">Register</span></button>
       </div>
 
       <!-- LOGIN MODAL -->
@@ -203,7 +203,7 @@
                 <div class="text-dark" id="playing-text">Playing</div>
             </div>
             <div id="winnerTournament" class="winnerTournament text-center text=light">
-              <div class="text-dark">The Winner is </div>
+              <div class="text-dark" id="winnerTournament-text">The Winner is </div>
             </div>
             <div id="PlayerTwo" class="PlayerTwo text-center">
               <div class="text-dark" id="playing-text2">Playing</div>
@@ -226,7 +226,7 @@
           <button type="button" class="btn btn-primary" id="newControlButton" aria-label="Open game control modal">
             <i class="bi bi-controller"></i>
           </button>
-          <button type="button" class="btn btn-primary" id="newLogoutButton" role="button" aria-label="Logout from Pong">Logout</button>
+          <button type="button" class="btn btn-primary" id="newLogoutButton" role="button" aria-label="Logout from Pong"><span id="logoutModal">Logout</span></button>
         <!-- GAMECONTROL -->
           <div class="modal fade" id="commandModal" tabindex="-1" aria-labelledby="commandModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -460,11 +460,13 @@
                   <hr style="border: 1px solid #89929d; margin: 10px 0;">
                   <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
                     <a href="./assets/rgpd.pdf" target="_blank" id="general-conditions-link1" class="text-primary forgot-password-link" style="font-size: 0.9rem;">General Terms and Conditions</a>
-                    <button type="button" class="btn btn-primary" id="delete-profile" aria-label="Delete Profile">Delete Profile</button>
+                    <button type="button" class="btn btn-primary" id="delete-profile" aria-label="Delete Profile">
+                        <span id="delete-profile-text">Delete Profile</span>
+                    </button>
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" id="save-changes-profile" aria-label="Save changes">Save Changes</button>
+                  <button type="button" class="btn btn-primary" id="save-changes-profile"><span id="save-changes-profile-text">Save Changes</span></button>
                 </div>
               </div>
             </div>
@@ -479,10 +481,10 @@
             <button id="closeDropdown" aria-label="Close menu">×</button>
           </div>
           <div class="dropdown-body">
-            <button id="settingsBtn" class="menu-item-btn">Settings</button>
-            <button id="statisticsBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#statisticModal">Statistics</button>
-            <button id="tournamentBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#tournament">Tournament</button>
-            <button id="historyBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#historyModal">History</button>
+            <button id="settingsBtn" class="menu-item-btn"><span id="settingsBtn-text">Settings</span></button>
+            <button id="statisticsBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#statisticModal"><span id="statisticsBtn-text">Statistics</span></button>
+            <button id="tournamentBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#tournament"><span id="tournamentBtn-text">Tournament</span></button>
+            <button id="historyBtn" class="menu-item-btn" data-bs-toggle="modal" data-bs-target="#historyModal"><span id="historyBtn-text">History</span></button>
           </div>
         </div>
 
@@ -700,12 +702,8 @@
               <input type="text" id="register-friend" placeholder="Friend username">
             </div>
             <div class="setting-row">
-              <button type="button" class="btn btn-primary" id="add-friend" style="flex: 1; margin-right: 10px;">
-                <i class="bi bi-person-plus-fill"></i> Add Friend
-              </button>
-              <button type="button" class="btn btn-primary" id="remove-friend" style="flex: 1;">
-                <i class="bi bi-person-dash-fill"></i> Remove Friend
-              </button>
+              <button type="button" class="btn btn-primary" id="add-friend" style="flex: 1; margin-right: 10px;"><i class="bi bi-person-plus-fill"></i> <span id="add-friend-text">Add Friend</span></button>
+              <button type="button" class="btn btn-primary" id="remove-friend" style="flex: 1;"><i class="bi bi-person-dash-fill"></i> <span id="remove-friend-text">Remove Friend</span></button>
             </div>
 
             <!-- Friends Table -->
@@ -729,13 +727,13 @@
             <!-- Action Buttons -->
             <div class="setting-row">
               <a href="./assets/rgpd.pdf" target="_blank" style="color: var(--accent-glow); text-decoration: underline;">Terms and Conditions</a>
-              <button type="button" class="btn btn-primary" id="delete-profile" style="background: #dc3545;">Delete Profile</button>
+              <button type="button" class="btn btn-primary" id="delete-profile"><span id="delete-profile-text">Delete Profile</span></button>
             </div>
           </div>
 
           <!-- Modal Footer -->
           <div class="custom-modal-footer">
-            <button type="button" class="btn btn-primary" id="save-changes-profile">Save Changes</button>
+            <button type="button" class="btn btn-primary" id="save-changes-profile"><span id="save-changes-profile-text">Save Changes</span></button>
           </div>
         </div>
       </div>
@@ -894,35 +892,35 @@
           <!-- Modal Body -->
           <div class="custom-modal-body">
             <!-- Ball Settings -->
-            <p class="setting-header">Ball</p>
+            <p class="setting-header" id="ballHeader">Ball</p>
             <div class="setting-row">
-              <label for="speed-input-ball">Speed</label>
+              <label for="speed-input-ball" id="speed-ball">Speed</label>
               <input type="number" id="speed-input-ball" value="40">
             </div>
             <div class="setting-row">
-              <label for="acceleration-input-ball">Acceleration</label>
+              <label for="acceleration-input-ball" id="acceleration-ball">Acceleration</label>
               <input type="number" id="acceleration-input-ball" value="20">
             </div>
             <div class="setting-row">
-              <label for="nbr-input-ball">Number</label>
+              <label for="nbr-input-ball" id="nbr-ball">Number</label>
               <input type="number" id="nbr-input-ball" value="1" min="1" max="5">
             </div>
 
             <hr class="setting-divider">
 
             <!-- AI Settings -->
-            <p class="setting-header">AI</p>
+            <p class="setting-header" id="AI">AI</p>
             <div class="setting-row">
-              <label for="difficulty-input-ai">Difficulty</label>
+              <label for="difficulty-input-ai" id="difficulty-ai">Difficulty</label>
               <input type="number" id="difficulty-input-ai" min="10" max="50" value="10">
             </div>
 
             <hr class="setting-divider">
 
             <!-- Language Settings -->
-            <p class="setting-header">Language</p>
+            <p class="setting-header" id="language">Language</p>
             <div class="setting-row">
-              <label for="languageSelection">Choose Language</label>
+              <label for="languageSelection" id="language-choice">Choose Language</label>
               <select id="languageSelection">
                 <option value="1" id="lang-english">English</option>
                 <option value="2" id="lang-french">Français</option>
@@ -933,14 +931,14 @@
             <hr class="setting-divider">
 
             <!-- SIZE TEXT -->
-            <p class="setting-header">Text Size</p>
+            <p class="setting-header" id="textSize">Text Size</p>
             <div class="setting-row">
-              <label for="text-size-selection">Choose Size</label>
+              <label for="text-size-selection" id="text-Size">Choose Size</label>
               <select id="text-size-selection">
-                <option value="14">Small</option>
-                <option value="16" selected>Medium</option>
-                <option value="18">Large</option>
-                <option value="20">Extra Large</option>
+                <option value="14" id="sizes">Small</option>
+                <option value="16" id="sizem" selected>Medium</option>
+                <option value="18" id="sizel">Large</option>
+                <option value="20" id="sizexl">Extra Large</option>
               </select>
             </div>
           </div>
