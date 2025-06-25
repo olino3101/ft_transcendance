@@ -220,15 +220,13 @@
 
         <!-- PROFILE BOTTOM && LOGOUT BOTTON-->
         <div class="top-right-button">
-          <button class="btn btn-primary" id="profileButton" data-bs-toggle="modal" data-bs-target="#profileModal" aria-haspopup="dialog"
-          aria-expanded="false" aria-label="Open profile modal">
+          <button class="btn btn-primary" id="newProfileButton" aria-label="Open profile modal">
             <i class="bi bi-person fs-5" aria-hidden="true"></i>
           </button>
-          <button type="button" class="btn btn-primary" id="controlButton" data-bs-toggle="modal" data-bs-target="#commandModal" aria-haspopup="dialog"
-          aria-expanded="false" aria-label="Open game control modal">
+          <button type="button" class="btn btn-primary" id="newControlButton" aria-label="Open game control modal">
             <i class="bi bi-controller"></i>
           </button>
-          <button type="button" class="btn btn-primary" id="logoutModal" role="button" aria-label="Logout from Pong">Logout</button>
+          <button type="button" class="btn btn-primary" id="newLogoutButton" role="button" aria-label="Logout from Pong">Logout</button>
         <!-- GAMECONTROL -->
           <div class="modal fade" id="commandModal" tabindex="-1" aria-labelledby="commandModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -565,10 +563,12 @@
             </div>
             <div class="modal-body">
               <p class="fw-bold" id="nbr-player-tournament">Choose how many players</p>
-              <div class="col">
-                <button type="button" id="tournament-4" class="btn btn-primary" aria-label="Select 4 players">4</button>
-                <button type="button" id="tournament-8" class="btn btn-primary" aria-label="Select 8 players">8</button>
-                <button type="button" id="tournament-16" class="btn btn-primary" aria-label="Select 16 players">16</button>
+              <div class="col text-center">
+                <div class="d-flex justify-content-center gap-3">
+                  <button type="button" id="tournament-4" class="btn btn-primary" aria-label="Select 4 players">4</button>
+                  <button type="button" id="tournament-8" class="btn btn-primary" aria-label="Select 8 players">8</button>
+                  <button type="button" id="tournament-16" class="btn btn-primary" aria-label="Select 16 players">16</button>
+                </div>
               </div>
             </div>
             <div class="modal-footer">
@@ -655,6 +655,228 @@
               <button type="button" class="btn btn-secondary">Close</button>
               <button type="button" class="btn btn-primary">Save changes</button>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CUSTOM PROFILE MODAL (no Bootstrap) -->
+      <div id="customProfileModal" class="custom-modal" style="display: none;">
+        <div class="custom-modal-backdrop" onclick="closeCustomProfileModal()"></div>
+        <div class="custom-modal-content">
+          <!-- Modal Header -->
+          <div class="custom-modal-header">
+            <h1>PROFILE</h1>
+            <button type="button" class="custom-close-btn" onclick="closeCustomProfileModal()">×</button>
+          </div>
+
+          <!-- Modal Body -->
+          <div class="custom-modal-body">
+            <!-- Avatar Section -->
+            <div class="setting-row" style="justify-content: center; align-items: center;">
+              <img src="#" alt="Profile Avatar" class="avatar-img" id="avatarPreview" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-glow); display: flex; align-items: center; justify-content: center;">
+              <button class="btn btn-primary" type="button" aria-label="Edit avatar picture" style="margin-left: 15px;">
+                <i class="bi bi-pencil text-white"></i>
+              </button>
+              <input type="file" id="uploadAvatar" class="d-none" accept="image/*">
+            </div>
+
+            <hr class="setting-divider">
+
+            <!-- Profile Information -->
+            <div class="setting-row">
+              <label for="login-username">Login</label>
+              <input type="text" id="login-username">
+            </div>
+            <div class="setting-row">
+              <label for="email-profile">E-mail</label>
+              <input type="email" id="email-profile">
+            </div>
+
+            <hr class="setting-divider">
+
+            <!-- Friend Management -->
+            <div class="setting-row">
+              <label for="register-friend">Add Friend</label>
+              <input type="text" id="register-friend" placeholder="Friend username">
+            </div>
+            <div class="setting-row">
+              <button type="button" class="btn btn-primary" id="add-friend" style="flex: 1; margin-right: 10px;">
+                <i class="bi bi-person-plus-fill"></i> Add Friend
+              </button>
+              <button type="button" class="btn btn-primary" id="remove-friend" style="flex: 1;">
+                <i class="bi bi-person-dash-fill"></i> Remove Friend
+              </button>
+            </div>
+
+            <!-- Friends Table -->
+            <div style="margin-top: 20px;">
+              <table style="width: 100%; border-collapse: collapse; background: #23234a; border: 1px solid var(--accent-glow);">
+                <thead style="background: var(--accent-glow); color: white;">
+                  <tr>
+                    <th style="padding: 8px; border: 1px solid #ccc;">Friend Name</th>
+                    <th style="padding: 8px; border: 1px solid #ccc;">Online Status</th>
+                    <th style="padding: 8px; border: 1px solid #ccc;">Game Status</th>
+                  </tr>
+                </thead>
+                <tbody id="friendTableBody" style="color: white;">
+                  <!-- Friends will be added dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <hr class="setting-divider">
+
+            <!-- Action Buttons -->
+            <div class="setting-row">
+              <a href="./assets/rgpd.pdf" target="_blank" style="color: var(--accent-glow); text-decoration: underline;">Terms and Conditions</a>
+              <button type="button" class="btn btn-primary" id="delete-profile" style="background: #dc3545;">Delete Profile</button>
+            </div>
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="custom-modal-footer">
+            <button type="button" class="btn btn-primary" id="save-changes-profile">Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CUSTOM GAME CONTROLS MODAL (no Bootstrap) -->
+      <div id="customControlsModal" class="custom-modal" style="display: none;">
+        <div class="custom-modal-backdrop" onclick="closeCustomControlsModal()"></div>
+        <div class="custom-modal-content">
+          <!-- Modal Header -->
+          <div class="custom-modal-header">
+            <h1>GAME CONTROLS</h1>
+            <button type="button" class="custom-close-btn" onclick="closeCustomControlsModal()">×</button>
+          </div>
+
+          <!-- Modal Body -->
+          <div class="custom-modal-body" style="max-height: 70vh; overflow-y: auto; padding-right: 10px;">
+            <!-- Single Player -->
+            <p class="setting-header">Single Player</p>
+            <table style="width: 100%; border-collapse: collapse; background: #23234a; border: 1px solid var(--accent-glow); margin-bottom: 20px;">
+              <thead style="background: var(--accent-glow); color: white;">
+                <tr>
+                  <th style="padding: 8px; border: 1px solid #ccc;">Player</th>
+                  <th style="padding: 8px; border: 1px solid #ccc;">Key</th>
+                  <th style="padding: 8px; border: 1px solid #ccc;">Action</th>
+                </tr>
+              </thead>
+              <tbody style="color: white;">
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #444;">Player 1</td>
+                  <td style="padding: 8px; border: 1px solid #444;">W</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Move Up</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #444;"></td>
+                  <td style="padding: 8px; border: 1px solid #444;">S</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Move Down</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Multi Player -->
+            <p class="setting-header">Multi Player</p>
+            <table style="width: 100%; border-collapse: collapse; background: #23234a; border: 1px solid var(--accent-glow); margin-bottom: 20px;">
+              <thead style="background: var(--accent-glow); color: white;">
+                <tr>
+                  <th style="padding: 8px; border: 1px solid #ccc;">Player</th>
+                  <th style="padding: 8px; border: 1px solid #ccc;">Key</th>
+                  <th style="padding: 8px; border: 1px solid #ccc;">Action</th>
+                </tr>
+              </thead>
+              <tbody style="color: white;">
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #444;">Player 1</td>
+                  <td style="padding: 8px; border: 1px solid #444;">W</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Move Up</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #444;"></td>
+                  <td style="padding: 8px; border: 1px solid #444;">S</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Move Down</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #444;">Player 2</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Arrow Up</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Move Up</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #444;"></td>
+                  <td style="padding: 8px; border: 1px solid #444;">Arrow Down</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Move Down</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- 2 vs 2 -->
+            <p class="setting-header">2 vs 2</p>
+            <p style="color: var(--text-color); font-weight: bold; margin-bottom: 10px;">Team 1</p>
+            <table style="width: 100%; border-collapse: collapse; background: #23234a; border: 1px solid var(--accent-glow); margin-bottom: 15px;">
+              <thead style="background: var(--accent-glow); color: white;">
+                <tr>
+                  <th style="padding: 8px; border: 1px solid #ccc;">Player</th>
+                  <th style="padding: 8px; border: 1px solid #ccc;">Key</th>
+                  <th style="padding: 8px; border: 1px solid #ccc;">Action</th>
+                </tr>
+              </thead>
+              <tbody style="color: white;">
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #444;">Player 1</td>
+                  <td style="padding: 8px; border: 1px solid #444;">W</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Move Up</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #444;"></td>
+                  <td style="padding: 8px; border: 1px solid #444;">S</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Move Down</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #444;">Player 2</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Arrow Up</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Move Up</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #444;"></td>
+                  <td style="padding: 8px; border: 1px solid #444;">Arrow Down</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Move Down</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p style="color: var(--text-color); font-weight: bold; margin-bottom: 10px;">Team 2</p>
+            <table style="width: 100%; border-collapse: collapse; background: #23234a; border: 1px solid var(--accent-glow);">
+              <thead style="background: var(--accent-glow); color: white;">
+                <tr>
+                  <th style="padding: 8px; border: 1px solid #ccc;">Player</th>
+                  <th style="padding: 8px; border: 1px solid #ccc;">Key</th>
+                  <th style="padding: 8px; border: 1px solid #ccc;">Action</th>
+                </tr>
+              </thead>
+              <tbody style="color: white;">
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #444;">Player 3</td>
+                  <td style="padding: 8px; border: 1px solid #444;">N</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Move Up</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #444;"></td>
+                  <td style="padding: 8px; border: 1px solid #444;">M</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Move Down</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #444;">Player 4</td>
+                  <td style="padding: 8px; border: 1px solid #444;">2</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Move Up</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #444;"></td>
+                  <td style="padding: 8px; border: 1px solid #444;">3</td>
+                  <td style="padding: 8px; border: 1px solid #444;">Move Down</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

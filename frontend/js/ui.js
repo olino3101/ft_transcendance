@@ -244,29 +244,7 @@ export function closeModal(modalElement) {
 //     });
 // });
 
-//Logout
-document.addEventListener("DOMContentLoaded", function () {
-  const logoutButton = document.getElementById('logoutModal');
-  const preliminaryStep = document.getElementById('preliminary-step');
-  const mainContent = document.getElementById('main-content');
-
-  function handleLogout() {
-      if (canvas) {
-          canvas.style.display = "none";
-          canvas.classList.remove('visible');
-      }
-      preliminaryStep.style.display = 'flex';
-      mainContent.style.display = 'none';
-
-      // Reset the game state
-      if (window.game) {
-          window.game.isactive = false;
-          window.game.isPlaying = false;
-      }
-  }
-
-  logoutButton.addEventListener('click', handleLogout);
-});
+// Old logout handler removed - now using custom logout function
 
 // deleteUserAccount
 document.addEventListener("DOMContentLoaded", function () {
@@ -453,13 +431,7 @@ export function initMobileControls(players) {
 
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('profileModal').addEventListener('show.bs.modal', getFriend);
-});
-
-document.querySelector('.btn-primary.mt-3').addEventListener('click', () => {
-    document.getElementById('uploadAvatar').click();
-});
+// Old profile modal event listeners removed - now using custom profile modal
 
 document.addEventListener("DOMContentLoaded", function() {
     const premilinaryStep = document.getElementById('preliminary-step');
@@ -498,7 +470,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     const validateOtpButton = document.getElementById('validate-otp-btn');
-    const logoutButton = document.getElementById('logoutModal');
+    const logoutButton = document.getElementById('newLogoutButton');
 
     validateOtpButton.addEventListener('click', () => {
         history.pushState({ page: 'main' }, '', '#main-content');
@@ -641,6 +613,106 @@ function closeCustomModal() {
 window.closeCustomModal = closeCustomModal;
 window.openCustomModal = openCustomModal;
 
+// PROFILE MODAL FUNCTIONS
+function openCustomProfileModal() {
+  console.log('openCustomProfileModal() called');
+  const modal = document.getElementById('customProfileModal');
+  console.log('Profile Modal element:', modal);
+  
+  if (modal) {
+    console.log('Setting profile modal display to flex');
+    modal.style.display = 'flex';
+    modal.style.visibility = 'visible';
+    modal.style.opacity = '1';
+    modal.style.pointerEvents = 'auto';
+    
+    // Focus first input for accessibility
+    const firstInput = modal.querySelector('input');
+    if (firstInput) {
+      setTimeout(() => firstInput.focus(), 100);
+    }
+  } else {
+    console.error('Profile Modal element not found!');
+  }
+}
+
+function closeCustomProfileModal() {
+  console.log('closeCustomProfileModal() called');
+  const modal = document.getElementById('customProfileModal');
+  if (modal) {
+    console.log('Hiding profile modal');
+    modal.style.display = 'none';
+    modal.style.visibility = 'hidden';
+    modal.style.opacity = '0';
+    modal.style.pointerEvents = 'none';
+    console.log('Profile Modal hidden');
+  } else {
+    console.error('Profile Modal element not found for closing!');
+  }
+}
+
+// CONTROLS MODAL FUNCTIONS
+function openCustomControlsModal() {
+  console.log('openCustomControlsModal() called');
+  const modal = document.getElementById('customControlsModal');
+  console.log('Controls Modal element:', modal);
+  
+  if (modal) {
+    console.log('Setting controls modal display to flex');
+    modal.style.display = 'flex';
+    modal.style.visibility = 'visible';
+    modal.style.opacity = '1';
+    modal.style.pointerEvents = 'auto';
+  } else {
+    console.error('Controls Modal element not found!');
+  }
+}
+
+function closeCustomControlsModal() {
+  console.log('closeCustomControlsModal() called');
+  const modal = document.getElementById('customControlsModal');
+  if (modal) {
+    console.log('Hiding controls modal');
+    modal.style.display = 'none';
+    modal.style.visibility = 'hidden';
+    modal.style.opacity = '0';
+    modal.style.pointerEvents = 'none';
+    console.log('Controls Modal hidden');
+  } else {
+    console.error('Controls Modal element not found for closing!');
+  }
+}
+
+// LOGOUT FUNCTION
+function handleLogout() {
+  console.log('handleLogout() called');
+  const canvas = document.getElementById('bg');
+  const preliminaryStep = document.getElementById('preliminary-step');
+  const mainContent = document.getElementById('main-content');
+
+  if (canvas) {
+    canvas.style.display = "none";
+    canvas.classList.remove('visible');
+  }
+  preliminaryStep.style.display = 'flex';
+  mainContent.style.display = 'none';
+
+  // Reset the game state
+  if (window.game) {
+    window.game.isactive = false;
+    window.game.isPlaying = false;
+  }
+  
+  console.log('Logout completed');
+}
+
+// Make functions globally available
+window.closeCustomProfileModal = closeCustomProfileModal;
+window.openCustomProfileModal = openCustomProfileModal;
+window.closeCustomControlsModal = closeCustomControlsModal;
+window.openCustomControlsModal = openCustomControlsModal;
+window.handleLogout = handleLogout;
+
 // NEW SIMPLE HAMBURGER MENU HANDLER
 document.addEventListener('DOMContentLoaded', function () {
   // Clean up any existing modals on load
@@ -708,6 +780,54 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('Settings button handler added');
   }
   
+  // Profile button - open custom profile modal
+  const newProfileBtn = document.getElementById('newProfileButton');
+  if (newProfileBtn) {
+    newProfileBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('Profile clicked');
+      openCustomProfileModal();
+      // Load friend data when profile opens
+      if (typeof getFriend === 'function') {
+        getFriend();
+      }
+    });
+    console.log('Profile button handler added');
+  }
+  
+  // Avatar upload button handler
+  document.addEventListener('click', function(e) {
+    if (e.target && e.target.closest('button[aria-label="Edit avatar picture"]')) {
+      e.preventDefault();
+      const uploadInput = document.getElementById('uploadAvatar');
+      if (uploadInput) {
+        uploadInput.click();
+      }
+    }
+  });
+  
+  // Controls button - open custom controls modal
+  const newControlBtn = document.getElementById('newControlButton');
+  if (newControlBtn) {
+    newControlBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('Controls clicked');
+      openCustomControlsModal();
+    });
+    console.log('Controls button handler added');
+  }
+  
+  // Logout button - handle logout
+  const newLogoutBtn = document.getElementById('newLogoutButton');
+  if (newLogoutBtn) {
+    newLogoutBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('Logout clicked');
+      handleLogout();
+    });
+    console.log('Logout button handler added');
+  }
+  
   // Other modal buttons
   const modalBtns = document.querySelectorAll('.menu-item-btn[data-bs-toggle="modal"]');
   modalBtns.forEach(btn => {
@@ -727,24 +847,30 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // ESC key to close custom modal
+  // ESC key to close custom modals
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       closeCustomModal();
+      closeCustomProfileModal();
+      closeCustomControlsModal();
       cleanupModals();
     }
   });
 
   // Add event listeners for modal close functionality
   document.addEventListener('click', function(e) {
-    // Close modal when clicking on backdrop
+    // Close modals when clicking on backdrop
     if (e.target && e.target.classList.contains('custom-modal-backdrop')) {
       closeCustomModal();
+      closeCustomProfileModal();
+      closeCustomControlsModal();
     }
     
-    // Close modal when clicking the X button
+    // Close modals when clicking the X button
     if (e.target && e.target.classList.contains('custom-close-btn')) {
       closeCustomModal();
+      closeCustomProfileModal();
+      closeCustomControlsModal();
     }
   });
 });
