@@ -1,0 +1,63 @@
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - app_network
+    volumes:
+      - ./frontend:/app  # Optional: for live development
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - app_network
+    volumes:
+      - ./backend:/app  # Optional: for live development
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+        - "80:80"    # HTTP
+        - "443:443"  # HTTPS
+    depends_on:
+        - frontend
+        - backend
+    networks:
+      - app_network
+    volumes:
+      - ./nginx/ssl:/etc/nginx/ssl  # Mount the SSL certificate files
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # Mount the Nginx configuration file
+
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -1,0 +1,37 @@
+
+# load pics profil
+backend/game/media/avatars/*
+
+# Fichiers à ignorer dans Git
+.env
+
+# Ignorer les fichiers __pycache__
+backend/game/__pycache__/*
+backend/transcendance/__pycache__/*
+*.py[cod]
+
+# Ignorer les fichiers de migration
+*/migrations/*
+
+# Ignorer les fichiers de l'environnement virtuel
+venv/
+.env
+
+# Ignorer les fichiers de configuration de l'éditeur
+.vscode/
+.idea/
+
+# Ignorer les fichiers de log
+*.log
+
+# Ignorer les fichiers de base de données
+*.sqlite3
+
+# Ignorer les fichiers de compilation
+*.pyc
+*.pyo
+
+nginx/ssl/nginx-selfsigned.key
+nginx/ssl/server.key
+ssl/nginx-selfsigned.crt
+ssl/nginx-selfsigned.key

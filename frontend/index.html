@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pong</title>
+    <link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+
+    <div id="preliminary-step">
+      <h1 class="pong-title">PONG PONG PONG 🏓</h1>
+      <div class="prelim-buttons">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          id="loginModal" aria-haspopup="dialog"
+          aria-expanded="false" aria-label="Open login modal">
+          Login
+        </button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal" id="registerModalBtn" aria-haspopup="dialog"
+        aria-expanded="false" aria-label="Open register modal">Register</button>
+      </div>
+
+      <!-- LOGIN MODAL -->
+      <div class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      aria-modal="true"
+      role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">LOGIN</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="login" id="login-start" >Login</label>
+                <input type="text" id="login" aria-label="Enter login" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="password" id="pw-start">Password</label>
+                <input type="password" id="password" aria-label="Enter password" class="form-control">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <!-- <a href="#" id="reset-password-link" class="text-primary forgot-password-link" style="font-size: 0.9rem;">Forgot your password?</a> -->
+              <button type="button" class="btn btn-primary" id="validate-btn-login" data-bs-dismiss="modal" aria-label="Enter">Enter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <!-- 2FA MODAL -->
+      <div class="modal fade"
+      id="otpModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      aria-modal="true"
+      role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header" >
+              <h1 class="modal-title fs-5" id="twofactor">Two-Factors Authentification</h1>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="otp" id="codeInput">Enter the 6-digit code sent to your email:</label>
+                <input type="text" id="otp-input" maxlength="6">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button id="validate-otp-btn" class="btn btn-primary">Validate OTP</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REGISTER MODAL -->
+      <div class="modal fade"
+      id="registerModal"
+      tabindex="-1"
+      aria-labelledby="registerModalLabel"
+      aria-hidden="true"
+      aria-modal="true"
+      role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title" id="registerModalLabel">REGISTER</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="register-username" id="start-login">Login</label>
+                <input type="text" id="register-username" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="register-password" id="start-password">Password</label>
+                <input type="password" id="register-password" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="register-confirm-password" id="start-confpw">Confirm Password</label>
+                <input type="password" id="register-confirm-password" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="register-email" id="start-mail">E-mail</label>
+                <input type="email" id="register-email" class="form-control">
+              </div>
+            </div>
+            <div class="modal-footer register">
+              <div class="checkbox-container">
+                <input type="checkbox" id="myCheckbox" name="myCheckbox">
+                <label for="myCheckbox">
+                    <a href="#" id="general-conditions-link1" target="_blank" style="color: blue; text-decoration: underline;">I agree to the terms and conditions</a>
+                </label>
+              </div>
+              <button type="button" class="btn btn-primary" id="register-save-btn" aria-label="Enter">Enter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="main-content" style="display: none;">
+          <div id="menu">
+            <button id="singlePlayer" class="btn btn-primary">Single Player</button>
+            <button id="multiPlayer" class="btn btn-primary">Multi Player</button>
+            <button id="isFourPlayer" class="btn btn-primary">2 vs 2</button>
+          </div>
+
+
+          <!-- CANVAS-GAME -->
+          <div id="game-container">
+            <canvas id="bg"></canvas>
+          </div>
+
+          <div id="startRestart">
+            <button id="finishTournament" class="btn btn-primary finishTournament" aria-label="Finish tournament">Finish</button>
+            <button id="start" class="btn btn-primary start" aria-label="Start game">Start</button>
+            <div id="button-alignment">
+              <div id="mobile-control-left">
+                <button id="mobile-play-left" class="btn btn-primary" aria-label="Game control left">
+                  <i class="bi bi-arrow-left"></i>
+                </button>
+              </div>
+              <button id="restart" class="btn btn-primary restart" aria-label="Restart game">Restart</button>
+              <div id="mobile-control-right">
+                <button id="mobile-play-right" class="btn btn-primary" aria-label="Game control right">
+                  <i class="bi bi-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- TOURNAMENT -->
+          <div id="tournament-icon" class="tournament-icon" role="button" aria-label="Show tournament information" tabindex="0">
+            <i class="bi bi-trophy"></i>
+          </div>
+          <div class="tournament-info tournament-collapsed" id="tournament-info">
+            <div class="row my-2">
+              <div class="col-12 text-center">
+                <h2 class="text" id="tournament-panel">Tournament</h2>
+              </div>
+          </div>
+          <div class="row justify-content-center align-items-center">
+            <div class="col-auto text-center">
+                <p id="round-display" class="fs-4 fw-semibold text">Round</p>
+            </div>
+            <div class="col-auto text-center">
+                <p id="round-display-counter" class="fs-4 fw-semibold">1</p>
+            </div>
+          </div>
+
+          <div id="order-match-display" class="justify-content-center align-items-center">
+          </div>
+        </div>
+
+          <!-- DISPLAY CURRENT PLAYER --> 
+
+
+          <div id="alignment-container" class="text-center">
+            <div id="PlayerOne" class="PlayerOne text-center text=light">
+                <div class="text-dark">Playing</div>
+            </div>
+            <div id="winnerTournament" class="winnerTournament text-center text=light">
+              <div class="text-dark">The Winner is </div>
+            </div>
+            <div id="PlayerTwo" class="PlayerTwo text-center">
+              <div class="text-dark">Playing</div>
+            </div>
+          </div>
+          <!-- POINTS -->
+          <div id="alignment-container-points" class="text-center">
+            <div id="PPlayerOne" class="PPlayerOne text-center text=light">
+                <div class="text-dark"></div>
+            </div>
+
+            <div id="PPlayerTwo" class="PPlayerTwo text-center">
+              <div class="text-dark"></div>
+            </div>
+          </div>
+        <!-- BOUTTON MENU MOBILE --><!-- Button trigger modal desktop -->
+        <!-- Bouton Menu Mobile -->
+        <div id="mobileMenuButton">
+          <a data-bs-toggle="offcanvas" href="#offcanvasMenu" id="offcanvasBtn" tabindex="0" role="button" aria-label="Open main menu">
+            <i class="bi bi-list"></i>
+          </a>
+        </div>
+
+        <!-- OPEN SIDEBAR FIXE --><!-- Button trigger modal desktop -->
+        <div class="sidebar">
+          <div class="top-left-menu">
+            <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasMenu" id="offcanvasBtn" tabindex="-1" role="button" aria-label="Open main menu">
+              <i class="bi bi-list"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- PROFILE BOTTOM && LOGOUT BOTTON-->
+        <div class="top-right-button">
+          <button class="btn btn-primary" id="profileButton" data-bs-toggle="modal" data-bs-target="#profileModal" aria-haspopup="dialog"
+          aria-expanded="false" aria-label="Open profile modal">
+            <i class="bi bi-person fs-5" aria-hidden="true"></i>
+          </button>
+          <button type="button" class="btn btn-primary" id="controlButton" data-bs-toggle="modal" data-bs-target="#commandModal" aria-haspopup="dialog"
+          aria-expanded="false" aria-label="Open game control modal">
+            <i class="bi bi-controller"></i>
+          </button>
+          <button type="button" class="btn btn-primary" id="logoutModal" role="button" aria-label="Logout from Pong">Logout</button>
+        <!-- GAMECONTROL -->
+          <div class="modal fade" id="commandModal" tabindex="-1" aria-labelledby="commandModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title" id="command-ModalLabel">GAME CONTROLS</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <h2 id="gctrl-single">Single Player</h2>
+                  <table class="table table-bordered test-center">
+                    <thread class="table-dark">
+                      <tr>
+                        <th id="gctrl-splayer">Player</th>
+                          <th id="gctrl-skey">Key</th>
+                          <th id="gctrl-saction">Action</th>
+                      </tr>
+                    </thread>
+                    <tbody>
+                      <tr>
+                        <td id="gctrl-splayer1">Player 1</td>
+                        <td id="gctrl-sw">W</td>
+                        <td id="gctrl-swmoveup">Move Up</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td id="gctrl-ss">S</td>
+                        <td id="gctrl-smoveDown">Move Down</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <h2 id="gctrl-multi">Multi Player</h2>
+                  <table class="table table-bordered test-center">
+                    <thread class="table-dark">
+                      <tr>
+                        <th id="gctrl-mplayer">Player</th>
+                          <th id="gctrl-mkey">Key</th>
+                          <th id="gctrl-maction">Action</th>
+                      </tr>
+                    </thread>
+                    <tbody>
+                      <tr>
+                        <td id="gctrl-mplayer1">Player 1</td>
+                        <td id="gctrl-mw">W</td>
+                        <td id="gctrl-mwmoveup">Move Up</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td id="gctrl-ms">S</td>
+                        <td id="gctrl-mmoveDown">Move Down</td>
+                      </tr>
+                      <tr>
+                        <td id="gctrl-mplayer2">Player 2</td>
+                        <td id="gctrl-marrup">Arrow Up</td>
+                        <td id="gctrl-mmoveup">Move Up</td>
+                      </tr>
+                      <tr>
+
+
+
+
+
+
+
+
+                        <!-- HERERERE -->
+                        <td></td>
+                        <td id="gctrl-marrdown">Arrow Down</td>
+                        <td id="gctrl-mmovedown">Move Down</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <h2 id="gctrl-2v2">2 vs 2</h2>
+
+                  <h3 id="gctrl-2team1">Team 1</h3>
+                  <table class="table table-bordered test-center">
+                    <thread class="table-dark">
+                      <tr>
+                        <th id="gctrl-2player">Player</th>
+                          <th id="gctrl-2key">Key</th>
+                          <th id="gctrl-2action">Action</th>
+                      </tr>
+                    </thread>
+                    <tbody>
+                      <tr>
+                        <td id="gctrl-2player1">Player 1</td>
+                        <td id="gctrl-2w">W</td>
+                        <td id="gctrl-2moveup">Move Up</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td id="gctrl-2s">S</td>
+                          <td id="gctrl-2movedown">Move Down</td>
+                      </tr>
+                      <tr>
+                          <td id="gctrl-2player2">Player 2</td>
+                          <td id="gctrl-2arrup">Arrow Up</td>
+                          <td id="gctrl-2moveup2">Move Up</td>
+                      </tr>
+                      <tr>
+                          <td></td>
+                          <td id="gctrl-2arrdown">Arrow Down</td>
+                          <td id="gctrl-2movedown2">Move Down</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <h3 id="gctrl-2team1">Team 2</h3>
+                  <table class="table table-bordered test-center">
+                    <thread class="table-dark">
+                      <tr>
+                        <th id="gctrl-2Tplayer">Player</th>
+                          <th id="gctrl-2Tkey">Key</th>
+                          <th id="gctrl-2Taction">Action</th>
+                      </tr>
+                    </thread>
+                    <tbody>
+                      <tr>
+                        <td id="gctrl-2Tplayer3">Player 3</td>
+                        <td id="gctrl-2Tn">N</td>
+                        <td id="gctrl-2Tmoveup">Move Up</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td id="gctrl-2Tm">M</td>
+                          <td id="gctrl-2Tmovedown">Move Down</td>
+                      </tr>
+                      <tr>
+                          <td id="gctrl-2Tplayer4">Player 4</td>
+                          <td id="gctrl-2T2">2</td>
+                          <td id="gctrl-2Tmoveup2">Move Up</td>
+                      </tr>
+                      <tr>
+                          <td></td>
+                          <td id="gctrl-2T3">3</td>
+                          <td id="gctrl-2Tmovedown2">Move Down</td>
+                        </tr>
+                    </tbody>
+                  </table>
+
+                  <h2 id="gctrl-tournament">Tournament</h2>
+                  <table class="table table-bordered test-center">
+                    <thread class="table-dark">
+                      <tr>
+                        <th id="gctrl-tplayer">Player</th>
+                          <th id="gctrl-tkey">Key</th>
+                          <th id="gctrl-taction">Action</th>
+                      </tr>
+                    </thread>
+                      <tr>
+                          <td id="gctrl-tplayer1">Player 1</td>
+                          <td id="gctrl-tw">W</td>
+                          <td id="gctrl-tmoveup2">Move Up</td>
+                      </tr>
+                      <tr>
+                          <td></td>
+                          <td id="gctrl-ts">S</td>
+                          <td id="gctrl-tmovedown">Move Down</td>
+                      </tr>
+                      <tr>
+                          <td id="gctrl-tplayer2">Player 2</td>
+                          <td id="gctrl-tarrup">Arrow Up</td>
+                          <td id="gctrl-tmoveup">Move Up</td>
+                      </tr>
+                      <tr>
+                          <td></td>
+                          <td id="gctrl-tarrdown2">Arrow Down</td>
+                          <td id="gctrl-tmovedown2">Move Down</td>
+                      </tr>
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <!-- MODAL -->
+          <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title" id="profileModalLabel">PROFILE</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <!-- Avatar Section -->
+                  <div class="text-center mb-2">
+                    <img src="#" alt="Profile Avatar" class="avatar-img" id="avatarPreview">
+                    <button class="btn btn-primary mt-3" type="button" aria-label="Edit avatar picture">
+                      <i class="bi bi-pencil text-white"></i>
+                    </button>
+                    <input type="file" id="uploadAvatar" class="d-none" accept="image/*">
+                  </div>
+
+                  <hr style="border: 1px solid #89929d; margin: 20px 0;">
+                  <!-- Profile Information -->
+                  <div class="form-group">
+                    <label for="login-username" id="login-profile">Login</label>
+                    <input type="text" id="login-username" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="email-profile" id="emailR">E-mail</label>
+                    <input type="email" id="email-profile" class="form-control">
+                  </div>
+                  <hr style="border: 1px solid #89929d; margin: 20px 0;">
+                  <div class="form-group">
+                    <label for="register-friend-name" id="enter-friend-name">Friend</label>
+                    <input type="friend" id="register-friend" class="form-control">
+                    <button type="button" class="btn btn-primary" id="add-friend" aria-label="Add Friend">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary" id="remove-friend" aria-label="Delete Friend">
+                        <i class="bi bi-person-dash-fill"></i>
+                    </button>
+                  </div>
+                  <div>
+                    <table class="table table-bordered test-center">
+                      <thread class="table-dark">
+                        <tr>
+                          <th id="friend-name">Friend Name</th>
+                          <th id="online-stat">Online Status</th>
+                          <th id="game-stat">Game Status</th>
+                        </tr>
+                      </thread>
+                      <tbody id="friendTableBody">
+                        <!-- Les lignes seront ajoutées dynamiquement -->
+                      </tbody>
+                    </table>
+                  </div>
+                  <hr style="border: 1px solid #89929d; margin: 10px 0;">
+                  <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                    <a href="./assets/rgpd.pdf" target="_blank" id="general-conditions-link1" class="text-primary forgot-password-link" style="font-size: 0.9rem;">General Terms and Conditions</a>
+                    <button type="button" class="btn btn-primary" id="delete-profile" aria-label="Delete Profile">Delete Profile</button>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" id="save-changes-profile" aria-label="Save changes">Save Changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- SIDEBAR MENU -->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasHeader" aria-hidden="true" role="dialog">
+          <div class="offcanvas-header h-10">
+            <h1 class="offcanvas-title" id="offcanvasHeader">MENU</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+
+          <div class="offcanvas-body">
+            <!-- the menu items -->
+            <div class="d-grid gap-2 col-10 mx-auto position-absolute top-50 start-50 translate-middle">
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#settingsModal" id="settingsBtn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Open settings modal">Settings</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#statisticModal" id="statisticsBtn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Open Statistics modal">Statistics</button>
+              <button class="btn btn-primary" id="tournamentBtn" type="button" data-bs-toggle="modal" data-bs-target="#tournament" aria-haspopup="dialog" aria-expanded="false" aria-label="Open tournament modal">Tournament</button>
+              <!-- <button class="btn btn-primary" id="tournamentBtn" type="button">Tournament</button> -->
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#historyModal" id="historyBtn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Open history modal">History</button>
+            </div>
+          </div>
+
+          <!-- MODAL FOR SETTINGS -->
+          <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="modalSettings" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h1 class="modal-title" id="modalSettings">SETTINGS</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                  <!-- Ball Settings -->
+                  <p class="fw-bold mb-3" id="ballHeader">Ball</p>
+                  <div class="row mb-2 align-items-center">
+                    <label for="speed-input-ball" id="speed-ball" class="col-4 col-form-label fw-light text-start">Speed</label>
+                    <div class="col-8">
+                      <input type="number" id="speed-input-ball" class="form-control" value="40">
+                    </div>
+                  </div>
+                  <div class="row mb-2 align-items-center">
+                    <label for="acceleration-input-ball" id="acceleration-ball" class="col-4 col-form-label fw-light text-start">Acceleration</label>
+                    <div class="col-8">
+                      <input type="number" id="acceleration-input-ball" class="form-control" value="20">
+                    </div>
+                  </div>
+                  <div class="row mb-2 align-items-center">
+                    <label for="nbr-input-ball" id="nbr-ball" class="col-4 col-form-label fw-light text-start">Number</label>
+                    <div class="col-8">
+                      <input type="number" id="nbr-input-ball" class="form-control" value="1" min="1" max="5">
+                    </div>
+                  </div>
+
+                  <hr style="border: 1px solid #89929d; margin: 20px 0;">
+
+                  <!-- AI Settings -->
+                  <p class="fw-bold mb-3" id="AI">AI</p>
+                  <div class="row mb-2 align-items-center">
+                    <label for="difficulty-input-ai" id="difficulty-ai" class="col-4 col-form-label fw-light text-start">Difficulty</label>
+                    <div class="col-8">
+                      <input type="number" id="difficulty-input-ai" min="10" max="50" class="form-control" value="10">
+                    </div>
+                  </div>
+
+                  <hr style="border: 1px solid #89929d; margin: 20px 0;">
+
+                  <!-- Language Settings -->
+                  <p class="fw-bold mb-3" id="language">Language</p>
+                  <div class="row mb-2 align-items-center">
+                    <label for="languageSelection" id="language-choice" class="col-4 col-form-label fw-light text-start">Choose Language</label>
+                    <div class="col-8">
+                      <select class="form-select" id="languageSelection">
+                        <option value="1">English</option>
+                        <option value="2">Français</option>
+                        <option value="3">日本語</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <hr style="border: 1px solid #89929d; margin: 20px 0;">
+
+                  <!-- SIZE TEXT -->
+                  <p class="fw-bold mb-3" id="textSize">Text Size</p>
+                  <div class="row mb-2 align-items-center">
+                    <label for="text-size-selection" id="text-Size" class="col-4 col-form-label fw-light text-start">Choose Size</label>
+                    <div class="col-8">
+                      <select class="form-select" id="text-size-selection">
+                        <option value="14" id="sizes">Small</option>
+                        <option value="16" id="sizem" selected>Medium</option>
+                        <option value="18" id="sizel">Large</option>
+                        <option value="20" id="sizexl">Extra Large</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" id="validate-btn-Stgs" aria-label="Save Changes">Save Changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+           <!-- MODAL FOR STATISTICS -->
+           <div class="modal fade" id="statisticModal" tabindex="-1" aria-labelledby="modalStatistics" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h1 class="modal-title" id="modalStatistics">STATISTICS</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                  <!-- STATS -->
+                  <div class="container mt-4">
+                    <canvas id="statsChart" width="400" height="200"></canvas>
+                  </div>
+                  <div class="container mt-4">
+                    <table class="table table-bordered test-center">
+                      <thread class="table-dark">
+                        <tr>
+                          <th id="stat-mode">Mode Game</th>
+                          <th id="stat-vict">Victory</th>
+                          <th id="stat-def">Defeat</th>
+                          <th id="stat-total">Total Game</th>
+                        </tr>
+                      </thread>
+                      <tbody>
+                        <tr>
+                          <td id="stat-single">Single Player</td>
+                          <td id="single-victory">0</td>
+                          <td id="single-defeat">0</td>
+                          <td id="single-total">0</td>
+                        </tr>
+                        <tr>
+                          <td id="stat-multi">Multi Player</td>
+                          <td id="multi-victory">0</td>
+                          <td id="multi-defeat">0</td>
+                          <td id="multi-total">0</td>
+                        </tr>
+                        <tr>
+                          <td id="stat-2v2">2 v 2</td>
+                          <td id="team-victory">0</td>
+                          <td id="team-defeat">0</td>
+                          <td id="team-total">0</td>
+                        </tr>
+                        <tr>
+                          <td id="stat-tourn">Tournament</td>
+                          <td id="tournament-victory">0</td>
+                          <td id="tournament-defeat">0</td>
+                          <td id="tournament-total">0</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+      <div class="modal fade"
+      id="tournament"
+      tabindex="-1"
+      aria-labelledby="create-Tournament1"
+      aria-hidden="true"
+      aria-modal="true"
+      role="dialog"
+      data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title" id="create-Tournament1">TOURNAMENT</h1>
+              <button id="1modal-closeBtn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="fw-bold" id="nbr-player-tournament">Choose how many players</p>
+              <div class="col">
+                <button type="button" id="tournament-4" class="btn btn-primary" aria-label="Select 4 players">4</button>
+                <button type="button" id="tournament-8" class="btn btn-primary" aria-label="Select 8 players">8</button>
+                <button type="button" id="tournament-16" class="btn btn-primary" aria-label="Select 16 players">16</button>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <p class="col-8 text-end" id="defaultValue-nbrPlayer">Default value is 4</p>
+              <button id="nbrPlayer-Btn" class="btn btn-primary" data-bs-target="#create-Tournament" data-bs-toggle="modal" role="button" aria-label="Go to next step">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="create-Tournament" aria-hidden="true" aria-labelledby="create-Tournament" data-bs-backdrop="static" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title" id="title-tournament">CREATE TOURNAMENT</h1>
+              <button id="2modal-closeBtn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="d-flex">
+                <p id="input-Username">Choose name for player</p>
+                <p id="input-Username-id" class="ms-2">1</p>
+                <p id="input-Username-Finish" style="display: none;" class="ms-2 ">All the players are named</p>
+
+              </div>
+              <div class="d-flex">
+                <input id="input-username-form" class="form-control form-control-sm">
+                <button type="button" id="input-username-btn" class="btn btn-primary ms-2" role="button" aria-label="Save player name">Save</button>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button id="start-tournament" class="btn btn-primary" data-bs-dismiss="modal" style="display: none;" role="button" aria-label="Start tournament">Start Tournament</button>
+              <button id="2modal-BackBtn" class="btn btn-primary" data-bs-target="#tournament" data-bs-toggle="modal" role="button" aria-label="Back to previous step">Back</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="modalHistory" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h1 class="modal-title" id="modalStatistic">HISTORY</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+              <!-- STATS -->
+              <div class="container mt-4">
+                <table class="table table-bordered test-center">
+                  <thread class="table-dark">
+                    <tr>
+                      <th>#</th>
+                      <th id="hist-mode">Game Mode</th>
+                      <th id="hist-result">Result</th>
+                      <th id="hist-date">Date</th>
+                      <th id="hist-time">Time</th>
+                    </tr>
+                  </thread>
+                  <tbody id="historyTableBody">
+                    <!-- Les lignes seront ajoutées dynamiquement -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ERROR MODAL CANNOT CREATE A TOURNAMENT WHILE PLAYING -->
+      <div class="modal fade" id="err-tournament" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+          <script type="module" src="/js/main.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+          <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      </div>
+      <script type="module">
+        import { setupLogin } from '/js/login.js';
+        import { setupRegister } from '/js/register.js';
+        import { setupStats } from '/js/stats.js';
+        import { setupProfile, saveProfile, deleteProfile } from '/js/updateProfile.js';
+        import { logoutUser } from '/js/logout.js';
+        import { handleFriend } from '/js/friends.js';
+        import { handleHistory } from '/js/history.js';
+        import { setupAvatarUpload } from '/js/avatar.js';
+        setupLogin();
+        setupRegister();
+        setupStats();
+        setupProfile();
+        saveProfile();
+        logoutUser();
+        deleteProfile();
+        handleFriend();
+        handleHistory();
+        setupAvatarUpload();
+      </script>
+    </body>
+</html>

@@ -1,0 +1,772 @@
+:root {
+	/* Couleurs principales */
+	--background-color: #0a0a23;
+	--panel-background: #1a1a3a;
+	--panel-border: #2e2e4d;
+	--text-color: #e0e0e0;
+	--accent-color: #ac1531;
+	--accent-glow: #ff3c6f;
+	--accent-dark: #400106;
+	/* Couleur bouton */
+	--button-primary-bg: #ac1531;
+	--button-primary-text: #fff;
+	--button-primary-border: #400106;
+	--button-primary-hover-bg: #ff3c6f;
+	--button-primary-hover-border: #400106;
+	--button-primary-hover-text: #fff;
+	/* Couleur menu */
+	--menu-background: #18182f;
+	--menu-border: #2e2e4d;
+	--menu-text: #fff;
+	--menu-hover: #ff3c6f;
+
+	--base-font-size: 16px;
+	--glow: 0 0 8px var(--accent-glow), 0 0 16px var(--accent-glow);
+}
+
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-size: var(--base-font-size);
+	margin: 0;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: linear-gradient(135deg, #0a0a23 0%, #1a1a3a 100%);
+	overflow: hidden;
+	position: relative;
+}
+
+/* Animated star background */
+body::before {
+	content: '';
+	position: fixed;
+	top: 0; left: 0; width: 100vw; height: 100vh;
+	z-index: 0;
+	pointer-events: none;
+	background: url('https://www.transparenttextures.com/patterns/stardust.png');
+	opacity: 0.15;
+	animation: bgmove 60s linear infinite;
+}
+@keyframes bgmove {
+	0% { background-position: 0 0; }
+	100% { background-position: 100vw 100vh; }
+}
+
+canvas {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border-radius: 18px;
+	border: 2px solid var(--accent-glow);
+	box-shadow: 0 0 24px 2px var(--accent-glow);
+	z-index: 1;
+}
+
+/* Boutons primaires */
+.btn-primary {
+	background: linear-gradient(90deg, var(--button-primary-bg) 60%, var(--accent-glow) 100%);
+	color: var(--button-primary-text);
+	border: 1.5px solid var(--button-primary-border);
+	transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+	cursor: pointer;
+	font-size: 1.1rem;
+	border-radius: 8px;
+	box-shadow: 0 0 8px 0 var(--accent-glow);
+	font-family: 'Digital-7 Mono', monospace, Arial, sans-serif;
+	letter-spacing: 1px;
+}
+.btn-primary:hover, .btn-primary:focus {
+	background: linear-gradient(90deg, var(--button-primary-hover-bg) 60%, var(--accent-glow) 100%);
+	color: var(--button-primary-hover-text);
+	box-shadow: 0 0 16px 2px var(--accent-glow);
+	transform: scale(1.04);
+}
+
+#start {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--button-primary-bg);
+    color: var(--button-primary-text); 
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+	z-index: 1000; /* Ensure it's on top of overlapping elements */
+    pointer-events: auto;
+}
+
+#start:hover {
+    background-color: var(--button-primary-hover-bg);
+    color: var(--button-primary-hover-text);
+}
+
+
+#restart {
+	position: absolute;
+    /* top: 100%; */
+    left: 50%;
+    background-color: var(--button-primary-bg);
+    color: var(--button-primary-text);
+    cursor: pointer; 
+    z-index: 10;
+}
+
+#restart:hover {
+    background-color: var(--button-primary-hover-bg);
+    color: var(--button-primary-hover-text);
+}
+
+.offcanvas {
+	background-color: var(--menu-background);
+	color: var(--menu-text);
+	border-right: 1px solid var(--menu-border);
+}
+
+.offcanvas .offcanvas-header {
+	border-bottom: 1px solid var(--menu-border);
+	padding: 5px 30px; /* Réduit l'espace autour du titre et du bouton */
+	margin-top: 0px; /* Remonte légèrement le contenu */
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.offcanvas-header h5 {
+	margin: 1rem;
+	font-size: 2rem; /* Ajustez la taille selon vos besoins */
+	color: var(--menu-text);
+}
+
+.offcanvas .btn {
+	background-color: var(--menu-background);
+	color: var(--menu-text);
+	border: 1px solid var(--menu-border);
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.offcanvas .btn:hover {
+	background-color: var(--menu-hover);
+	color: var(--menu-text);
+}
+
+#offcanvasMenu .offcanvas-header {
+    border-bottom: none !important; /* Supprime la bordure */
+}
+
+#menu {
+	background: var(--panel-background);
+	border: 2px solid var(--accent-glow);
+	box-shadow: 0 0 24px 2px var(--accent-glow);
+	border-radius: 16px;
+	padding: 32px 24px;
+	margin: 0 auto;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	z-index: 10;
+}
+#menu button {
+	width: 220px;
+	padding: 12px 18px;
+	border-radius: 8px;
+	font-size: 1.1rem;
+	margin: 0 auto;
+	margin-bottom: 8px;
+}
+
+#offcanvasBtn {
+    background-color: transparent !important; 
+    border: none !important;
+    box-shadow: none; 
+    padding: 5px; 
+    color: var(--menu-text);
+    transition: color 0.3s ease;
+	z-index: 2000;
+}
+
+#offcanvasBtn:hover {
+    color: var(--menu-hover);
+	transform: scale(1.2);
+}
+
+#offcanvasBtn i {
+    font-size: 2rem;
+    color: var(--menu-text);
+	transform: scale(1.2);
+}
+
+#offcanvasBtn:hover i {
+    color: var(--menu-hover);
+}
+
+.menu-btn {
+    background-color: transparent !important; 
+    border: none !important; 
+    box-shadow: none !important; 
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px; 
+    transition: color 0.3s ease;
+	color: var(--menu-text);
+	z-index: 1500;
+}
+
+/* Assurez-vous que l'icône X est correctement dimensionnée */
+.menu-btn i {
+	font-size: 2rem;
+	transition: color 0.3s ease; 
+}
+
+.menu-btn:hover i{
+	color: var(--menu-hover);
+	transform: scale(1.2);
+}
+
+menu.hidden {
+	display: none;
+}
+
+/* TOURNAMENT */
+.tournament-info, .winnerTournament, .PlayerOne, .PlayerTwo {
+	background: var(--panel-background);
+	border-radius: 14px;
+	border: 2px solid var(--accent-glow);
+	box-shadow: 0 0 16px 1px var(--accent-glow);
+	color: var(--text-color);
+	padding: 1rem 1.5rem;
+	margin: 1rem auto;
+}
+
+.tournament-info h2 {
+	font-size: 2rem;
+	font-weight: bold;
+	margin: 0 0 10px 0;
+}
+
+.tournament-info .order-of-matches {
+	margin-top: 15px;
+	font-size: 1rem; 
+}
+
+.tournament-info h2,
+.tournament-info .fs-4 {
+	color: var(--menu-text);
+	background-color: transparent;
+	font-weight: bold; 
+}
+
+.tournament-info p {
+	margin: 0;
+	color: var(--menu-text);
+	font-weight: bold;
+}
+
+#tournament-info.tournament-collapsed {
+   opacity: 0%;
+}
+
+#tournament-info.tournament-expanded {
+    width: 300px;
+}
+
+#tournament-icon {
+	display: none;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 120px;
+    background-color: var(--panel-background);
+    border-top-left-radius: 60px;
+    border-bottom-left-radius: 60px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1200;
+}
+
+#tournament-icon i {
+    font-size: 24px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+#tournament-icon i:hover {
+	color: var(--menu-hover);
+	transform: scale(1.2); 
+}
+
+.bubble {
+    background-color: white;
+    border-radius: 15px; 
+    padding: 10px 15px; 
+    display: inline-flex; 
+    justify-content: space-around; 
+    align-items: center;
+    border: 2px solid var(--panel-border);
+    width: 250px;
+}
+
+.nextToPlay {
+    justify-content: center;
+}
+
+.start {
+	background-color: var(--button-color);
+	position: absolute;
+	top: 42%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 10;
+	display: none;
+}
+
+.restart {
+	background-color: var(--button-color);
+	position: absolute !important;
+	top: 88% !important;
+	left: 50% !important;
+	transform: translate(-50%, -50%);
+	z-index: 10 !important;
+	display: none;
+}
+
+.singlePlayer {
+	background-color: var(--button-color);
+	position: absolute;
+	top: 85% !important;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 10;
+
+}
+
+.multiPlayer {
+	background-color: var(--button-color);
+	position: absolute;
+	top: 85% !important;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 10;
+}
+
+.isFourPlayer {
+	position: absolute;
+	top: 47%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 10;
+}
+
+#winnerTournament,
+#PlayerOne,
+#PlayerTwo {
+  display: none;
+}
+
+#alignment-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 50%;
+}
+
+
+.player-info, .winner-info {
+	font-size: 2rem;
+	font-weight: bold;
+}
+
+.top-left-menu {
+	position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    gap: 15px;
+}
+
+.top-right-button {
+	position: fixed;
+	top: 30px;
+	right: 30px;
+	display: flex;
+	gap: 10px;
+	z-index: 1000; 
+}
+
+.top-left-menu a,
+.top-right-button button {
+	margin: 0;
+	padding: 5px 15px;
+	font-size: 1rem;
+
+}
+
+.modal-content {
+	background: var(--panel-background);
+	border-radius: 18px;
+	border: 2px solid var(--accent-glow);
+	box-shadow: 0 0 32px 2px var(--accent-glow);
+	color: var(--text-color);
+}
+.modal-header, .modal-footer {
+	border: none;
+	background: transparent;
+}
+.modal-title {
+	color: var(--accent-glow);
+	font-family: 'Digital-7 Mono', monospace, Arial, sans-serif;
+	font-size: 2rem;
+	letter-spacing: 2px;
+	text-shadow: var(--glow);
+}
+
+.modal-body {
+    display: flex;
+	text-align: left;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-body .form-group {
+    display: flex;
+    gap: 10px;
+}
+
+.modal-body label {
+    width: 120px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--menu-text);
+}
+
+.modal-body input, .modal-body select {
+    flex: 1;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid var(--panel-border);
+    border-radius: 5px;
+}
+
+.modal-body input {
+    background: #23234a;
+    color: #fff;
+    border: 1.5px solid var(--accent-glow);
+    border-radius: 6px;
+    box-shadow: 0 0 6px 0 var(--accent-glow) inset;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+.modal-body select option {
+    font-size: calc(var(--base-font-size) * 1);
+}
+
+.fs-1 { font-size: calc(var(--base-font-size) * 2.5) !important; }
+.fs-2 { font-size: calc(var(--base-font-size) * 2) !important; }
+.fs-3 { font-size: calc(var(--base-font-size) * 1.75) !important; }
+.fs-4 { font-size: calc(var(--base-font-size) * 1.5) !important; }
+.fs-5 { font-size: calc(var(--base-font-size) * 1.25) !important; }
+.fs-6 { font-size: calc(var(--base-font-size) * 1) !important; }
+
+/* STATS */
+#statsChart {
+	width: 100% !important;
+    height: 100% !important;
+    display: block;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 2px solid var(--background-color);
+    border-radius: 5px;
+}
+
+.forgot-password-link {
+    display: block;
+    text-align: left !important;
+	margin-right: 15px; 
+    font-size: 0.9rem; 
+}
+
+.checkbox-container {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+input[type="checkbox"] {
+	accent-color: var(--accent-glow);
+	transform: scale(1.2);
+}
+
+.checkbox-container a {
+	color: var(--accent-glow) !important;
+	text-decoration: underline;
+}
+
+#mobile-control-right {
+	display: none;
+}
+
+#mobile-control-left {
+	display: none;
+}
+
+#alignment-container-points {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 50%;
+	display: none;
+}
+
+.PPlayerOne {
+	border: 1px solid var(--button-primary-border);
+	line-height: 75px;
+	font-size: 3rem;
+    font-weight: bold;
+    color: var(--button-primary-text);
+    /* text-shadow: 4px 4px 0 #000000, 2px 2px; */
+	font-family: 'Digital-7 Mono', monospace;
+
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    width: 75px;
+    height: auto;
+
+	background-color: var(--button-primary-bg);
+	border-radius: 15px; 
+	/* transform: translateX(14%); */
+	position: absolute;
+	top: 12% !important;
+  	left: 30%;
+  	transform: translate(-50%, -50%);
+	display: block;
+}
+
+.PPlayerTwo {
+	border: 1px solid var(--button-primary-border);
+	line-height: 75px;
+	font-size: 3rem;
+    font-weight: bold;
+    color: var(--button-primary-text);
+    /* text-shadow: 4px 4px 0 #000000, 2px 2px; */
+	font-family: 'Digital-7 Mono', monospace;
+
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    width: 75px;
+    height: auto;
+
+	background-color: var(--button-primary-bg);
+	border-radius: 15px; 
+	/* transform: translateX(14%); */
+	position: absolute;
+	top: 12% !important;
+  	left: 70%;
+  	transform: translate(-50%, -50%);
+	display: block;
+}
+
+@media (max-width: 1024px) {
+    #mobile-control-right,
+    #mobile-control-left {
+        display: flex;
+        position: fixed;
+        gap: 10px;
+        z-index: 1000;
+    }
+
+    #mobile-control-right {
+        top: 85%;
+        left: 70%;
+        transform: translateX(-50%);
+    }
+
+    #mobile-control-left {
+        top: 85%;
+        left: 30%;
+        transform: translateX(-50%);
+    }
+
+}
+
+@media(max-width: 768px) {
+
+	body {
+        overflow: hidden;
+    }
+	.sidebar {
+		display: none;
+	}
+	#mobileMenuButton {
+		display: inline-block;
+	}
+	#preliminary-step h0 {
+		font-size: 6rem !important;
+	}
+	.top-right-button {
+		top: 30px;
+		right: 30px;
+	}
+	.top-right-button .btn-primary {
+		font-size: 1rem;
+		padding: 5px 10px;
+	}
+	canvas {
+		width: 100%;
+		max-width: 350px;
+		height: auto;
+		max-height: 300px;
+	}
+	.PlayerOne,
+	.PlayerTwo {
+		top: 24% !important;
+		left: 30%;
+		transform: translate(-50%, -50%);
+		display: block;
+	}
+	.PlayerTwo {
+		left: 70%;
+	}
+
+	.PPlayerOne,
+    .PPlayerTwo {
+        font-size: 2rem; /* Adjust font size for mobile */
+        width: 50px; /* Reduce size for mobile */
+        height: 50px; /* Adjust height */
+        line-height: 50px; /* Match reduced size */
+        top: 18% !important; /* Adjust position for mobile */
+    }
+
+	#tournament-icon {
+		top: 88%;
+		width: 50px;
+		height: 80px;
+		border-top-left-radius: 150px;
+		border-bottom-left-radius: 150px;
+		z-index: 1090;
+	}
+	.tournament-info {
+		top: 80%;
+		z-index: 1000;
+	}
+	.table {
+        font-size: 0.9rem; /* Réduisez la taille de la police */
+    }
+
+    .table th, .table td {
+        padding: 8px; /* Réduisez l'espacement interne */
+        font-size: 0.9rem; /* Réduisez encore la taille si nécessaire */
+    }
+
+    .table thead th {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .table tbody td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .container {
+        padding: 10px; /* Réduisez les marges du conteneur */
+    }
+
+}
+
+@media screen {
+	#tournament-icon {
+        display: flex;
+    }
+    #tournament-info {
+        display: none;
+    }
+    #tournament-info.tournament-expanded {
+        display: block;
+    }
+}
+
+@media (min-width: 375px) {
+    body {
+        min-width: 375px !important;
+    }
+}
+
+@media (min-height: 650px) {
+    body {
+        min-height: 650px !important;
+    }
+}
+
+.pong-title {
+  font-family: 'Digital-7 Mono', monospace, Arial, sans-serif;
+  font-size: 4rem;
+  color: var(--accent-glow);
+  text-shadow: 0 0 12px var(--accent-glow), 0 0 32px #fff2, 0 0 2px #fff8;
+  letter-spacing: 0.15em;
+  margin-bottom: 2.5rem;
+  margin-top: 1.5rem;
+  text-align: center;
+  animation: pong-glow 2s infinite alternate;
+  z-index: 2;
+}
+@keyframes pong-glow {
+  from { text-shadow: 0 0 12px var(--accent-glow), 0 0 32px #fff2, 0 0 2px #fff8; }
+  to { text-shadow: 0 0 32px var(--accent-glow), 0 0 64px #fff4, 0 0 8px #fff; }
+}
+
+.prelim-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2.5rem;
+  width: 100%;
+}
+.prelim-buttons .btn {
+  width: 180px;
+  font-size: 1.2rem;
+  margin: 0.2rem 0;
+  box-shadow: 0 0 8px 0 var(--accent-glow);
+}
+@media (max-width: 600px) {
+  .pong-title {
+    font-size: 2.2rem;
+  }
+  .prelim-buttons .btn {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+
+#preliminary-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  text-align: center;
+}
