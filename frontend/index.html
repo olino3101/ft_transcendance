@@ -216,6 +216,7 @@
             <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasMenu" id="offcanvasBtn" tabindex="-1" role="button" aria-label="Open main menu">
               <i class="bi bi-list"></i>
             </a>
+            <span class="menu-label">MENU</span>
           </div>
         </div>
 
@@ -485,7 +486,7 @@
           <div class="offcanvas-body">
             <!-- the menu items -->
             <div class="d-grid gap-2 col-10 mx-auto position-absolute top-50 start-50 translate-middle">
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#settingsModal" id="settingsBtn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Open settings modal">Settings</button>
+              <button class="btn btn-primary" id="settingsBtn" type="button" aria-label="Open settings modal">Settings</button>
               <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#statisticModal" id="statisticsBtn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Open Statistics modal">Statistics</button>
               <button class="btn btn-primary" id="tournamentBtn" type="button" data-bs-toggle="modal" data-bs-target="#tournament" aria-haspopup="dialog" aria-expanded="false" aria-label="Open tournament modal">Tournament</button>
               <!-- <button class="btn btn-primary" id="tournamentBtn" type="button">Tournament</button> -->
@@ -493,90 +494,6 @@
             </div>
           </div>
 
-          <!-- MODAL FOR SETTINGS -->
-          <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="modalSettings" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                  <h1 class="modal-title" id="modalSettings">SETTINGS</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <!-- Modal Body -->
-                <div class="modal-body">
-                  <!-- Ball Settings -->
-                  <p class="fw-bold mb-3" id="ballHeader">Ball</p>
-                  <div class="row mb-2 align-items-center">
-                    <label for="speed-input-ball" id="speed-ball" class="col-4 col-form-label fw-light text-start">Speed</label>
-                    <div class="col-8">
-                      <input type="number" id="speed-input-ball" class="form-control" value="40">
-                    </div>
-                  </div>
-                  <div class="row mb-2 align-items-center">
-                    <label for="acceleration-input-ball" id="acceleration-ball" class="col-4 col-form-label fw-light text-start">Acceleration</label>
-                    <div class="col-8">
-                      <input type="number" id="acceleration-input-ball" class="form-control" value="20">
-                    </div>
-                  </div>
-                  <div class="row mb-2 align-items-center">
-                    <label for="nbr-input-ball" id="nbr-ball" class="col-4 col-form-label fw-light text-start">Number</label>
-                    <div class="col-8">
-                      <input type="number" id="nbr-input-ball" class="form-control" value="1" min="1" max="5">
-                    </div>
-                  </div>
-
-                  <hr style="border: 1px solid #89929d; margin: 20px 0;">
-
-                  <!-- AI Settings -->
-                  <p class="fw-bold mb-3" id="AI">AI</p>
-                  <div class="row mb-2 align-items-center">
-                    <label for="difficulty-input-ai" id="difficulty-ai" class="col-4 col-form-label fw-light text-start">Difficulty</label>
-                    <div class="col-8">
-                      <input type="number" id="difficulty-input-ai" min="10" max="50" class="form-control" value="10">
-                    </div>
-                  </div>
-
-                  <hr style="border: 1px solid #89929d; margin: 20px 0;">
-
-                  <!-- Language Settings -->
-                  <p class="fw-bold mb-3" id="language">Language</p>
-                  <div class="row mb-2 align-items-center">
-                    <label for="languageSelection" id="language-choice" class="col-4 col-form-label fw-light text-start">Choose Language</label>
-                    <div class="col-8">
-                      <select class="form-select" id="languageSelection">
-                        <option value="1">English</option>
-                        <option value="2">Français</option>
-                        <option value="3">日本語</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <hr style="border: 1px solid #89929d; margin: 20px 0;">
-
-                  <!-- SIZE TEXT -->
-                  <p class="fw-bold mb-3" id="textSize">Text Size</p>
-                  <div class="row mb-2 align-items-center">
-                    <label for="text-size-selection" id="text-Size" class="col-4 col-form-label fw-light text-start">Choose Size</label>
-                    <div class="col-8">
-                      <select class="form-select" id="text-size-selection">
-                        <option value="14" id="sizes">Small</option>
-                        <option value="16" id="sizem" selected>Medium</option>
-                        <option value="18" id="sizel">Large</option>
-                        <option value="20" id="sizexl">Extra Large</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" id="validate-btn-Stgs" aria-label="Save Changes">Save Changes</button>
-                </div>
-              </div>
-            </div>
-          </div>
 
            <!-- MODAL FOR STATISTICS -->
            <div class="modal fade" id="statisticModal" tabindex="-1" aria-labelledby="modalStatistics" aria-hidden="true">
@@ -747,6 +664,78 @@
           </div>
         </div>
       </div>
+
+      <!-- CUSTOM SETTINGS MODAL (no Bootstrap) -->
+      <div id="customSettingsModal" class="custom-modal" style="display: none;">
+        <div class="custom-modal-backdrop" onclick="closeCustomModal()"></div>
+        <div class="custom-modal-content">
+          <!-- Modal Header -->
+          <div class="custom-modal-header">
+            <h1>SETTINGS</h1>
+            <button type="button" class="custom-close-btn" onclick="closeCustomModal()">×</button>
+          </div>
+
+          <!-- Modal Body -->
+          <div class="custom-modal-body">
+            <!-- Ball Settings -->
+            <p class="setting-header">Ball</p>
+            <div class="setting-row">
+              <label for="speed-input-ball">Speed</label>
+              <input type="number" id="speed-input-ball" value="40">
+            </div>
+            <div class="setting-row">
+              <label for="acceleration-input-ball">Acceleration</label>
+              <input type="number" id="acceleration-input-ball" value="20">
+            </div>
+            <div class="setting-row">
+              <label for="nbr-input-ball">Number</label>
+              <input type="number" id="nbr-input-ball" value="1" min="1" max="5">
+            </div>
+
+            <hr class="setting-divider">
+
+            <!-- AI Settings -->
+            <p class="setting-header">AI</p>
+            <div class="setting-row">
+              <label for="difficulty-input-ai">Difficulty</label>
+              <input type="number" id="difficulty-input-ai" min="10" max="50" value="10">
+            </div>
+
+            <hr class="setting-divider">
+
+            <!-- Language Settings -->
+            <p class="setting-header">Language</p>
+            <div class="setting-row">
+              <label for="languageSelection">Choose Language</label>
+              <select id="languageSelection">
+                <option value="1">English</option>
+                <option value="2">Français</option>
+                <option value="3">日本語</option>
+              </select>
+            </div>
+
+            <hr class="setting-divider">
+
+            <!-- SIZE TEXT -->
+            <p class="setting-header">Text Size</p>
+            <div class="setting-row">
+              <label for="text-size-selection">Choose Size</label>
+              <select id="text-size-selection">
+                <option value="14">Small</option>
+                <option value="16" selected>Medium</option>
+                <option value="18">Large</option>
+                <option value="20">Extra Large</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="custom-modal-footer">
+            <button type="button" class="btn btn-primary" id="validate-btn-Stgs">Save Changes</button>
+          </div>
+        </div>
+      </div>
+
 
           <script type="module" src="/js/main.js"></script>
           <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

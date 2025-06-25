@@ -561,3 +561,171 @@ if (typeof MutationObserver !== 'undefined') {
         observer.observe(menu, { attributes: true, attributeFilter: ['style'] });
     }
 }
+
+// Clean up any stuck modal backdrops
+function cleanupModals() {
+  // Remove any stuck modal backdrops
+  document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+  
+  // Remove modal-open class from body
+  document.body.classList.remove('modal-open');
+  
+  // Restore body overflow
+  document.body.style.overflow = '';
+  document.body.style.paddingRight = '';
+  
+  // Hide emergency reset button
+  const emergencyBtn = document.getElementById('emergency-reset');
+  if (emergencyBtn) {
+    emergencyBtn.style.display = 'none';
+  }
+}
+
+// Show emergency reset button if UI gets stuck
+function showEmergencyReset() {
+  const emergencyBtn = document.getElementById('emergency-reset');
+  if (emergencyBtn) {
+    emergencyBtn.style.display = 'block';
+  }
+}
+
+// SIMPLE CUSTOM MODAL FUNCTIONS
+function openCustomModal() {
+  console.log('openCustomModal() called');
+  const modal = document.getElementById('customSettingsModal');
+  console.log('Modal element:', modal);
+  
+  if (modal) {
+    console.log('Setting modal display to flex');
+    modal.style.display = 'flex';
+    modal.style.visibility = 'visible';
+    modal.style.opacity = '1';
+    modal.style.pointerEvents = 'auto';
+    
+    console.log('Modal style after setting:', {
+      display: modal.style.display,
+      visibility: modal.style.visibility,
+      opacity: modal.style.opacity,
+      zIndex: getComputedStyle(modal).zIndex
+    });
+    
+    // Focus first input for accessibility
+    const firstInput = modal.querySelector('input, select');
+    if (firstInput) {
+      setTimeout(() => firstInput.focus(), 100);
+    }
+  } else {
+    console.error('Modal element not found!');
+  }
+}
+
+function closeCustomModal() {
+  console.log('closeCustomModal() called');
+  const modal = document.getElementById('customSettingsModal');
+  if (modal) {
+    console.log('Hiding modal');
+    modal.style.display = 'none';
+    modal.style.visibility = 'hidden';
+    modal.style.opacity = '0';
+    modal.style.pointerEvents = 'none';
+    console.log('Modal hidden');
+  } else {
+    console.error('Modal element not found for closing!');
+  }
+}
+
+// Make function globally available
+window.closeCustomModal = closeCustomModal;
+window.openCustomModal = openCustomModal;
+
+// SUPER SIMPLE SIDEBAR BUTTON HANDLER
+document.addEventListener('DOMContentLoaded', function () {
+  // Clean up any existing modals on load
+  cleanupModals();
+  
+  // Wait for everything to load
+  setTimeout(() => {
+    // Handle Settings button specifically with custom modal - NO BOOTSTRAP
+    const settingsBtn = document.getElementById('settingsBtn');
+    if (settingsBtn) {
+      console.log('Settings button found, adding click handler');
+      
+      settingsBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('Settings button clicked');
+        
+        // Close offcanvas first
+        const offcanvasMenu = document.getElementById('offcanvasMenu');
+        if (offcanvasMenu && window.bootstrap && window.bootstrap.Offcanvas) {
+          const offcanvasInstance = window.bootstrap.Offcanvas.getInstance(offcanvasMenu);
+          if (offcanvasInstance) {
+            offcanvasInstance.hide();
+          }
+        }
+        
+        // Open custom modal after short delay
+        setTimeout(() => {
+          console.log('Opening custom settings modal');
+          openCustomModal();
+        }, 300);
+      });
+    } else {
+      console.error('Settings button not found!');
+    }
+
+    // Handle other modal buttons (keep Bootstrap for now)
+    const otherModalBtns = document.querySelectorAll('#offcanvasMenu [data-bs-toggle="modal"]');
+    console.log('Found other modal buttons:', otherModalBtns.length);
+    
+    otherModalBtns.forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const targetModal = btn.getAttribute('data-bs-target');
+        
+        if (targetModal) {
+          // Close offcanvas
+          const offcanvasMenu = document.getElementById('offcanvasMenu');
+          if (offcanvasMenu && window.bootstrap && window.bootstrap.Offcanvas) {
+            const offcanvasInstance = window.bootstrap.Offcanvas.getInstance(offcanvasMenu);
+            if (offcanvasInstance) {
+              offcanvasInstance.hide();
+            }
+          }
+          
+          // Open other modals with Bootstrap
+          setTimeout(() => {
+            const modalEl = document.querySelector(targetModal);
+            if (modalEl && window.bootstrap && window.bootstrap.Modal) {
+              const modalInstance = new window.bootstrap.Modal(modalEl);
+              modalInstance.show();
+            }
+          }, 300);
+        }
+      });
+    });
+  }, 500);
+
+  // ESC key to close custom modal
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeCustomModal();
+      cleanupModals();
+    }
+  });
+
+  // Add event listeners for modal close functionality
+  document.addEventListener('click', function(e) {
+    // Close modal when clicking on backdrop
+    if (e.target && e.target.classList.contains('custom-modal-backdrop')) {
+      closeCustomModal();
+    }
+    
+    // Close modal when clicking the X button
+    if (e.target && e.target.classList.contains('custom-close-btn')) {
+      closeCustomModal();
+    }
+  });
+});

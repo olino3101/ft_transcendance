@@ -137,22 +137,34 @@ canvas {
 	align-items: center;
 }
 
-.offcanvas-header h5 {
-	margin: 1rem;
-	font-size: 2rem; /* Ajustez la taille selon vos besoins */
-	color: var(--menu-text);
+.offcanvas-header h1, .offcanvas-header .offcanvas-title {
+    margin: 0;
+    font-size: 2.2rem;
+    color: var(--menu-text);
+    font-family: 'Digital-7 Mono', monospace, Arial, sans-serif;
+    letter-spacing: 0.1em;
+    font-weight: bold;
+    flex: 1 1 auto;
+    text-align: left;
 }
 
-.offcanvas .btn {
-	background-color: var(--menu-background);
-	color: var(--menu-text);
-	border: 1px solid var(--menu-border);
-	transition: background-color 0.3s ease, color 0.3s ease;
+.offcanvas .btn-close {
+    font-size: 2.2rem;
+    color: #fff !important;
+    opacity: 1 !important;
+    filter: drop-shadow(0 0 4px var(--accent-glow));
+    background: none !important;
+    border: none !important;
+    margin-left: 16px;
+    margin-right: 0;
+    z-index: 2001;
 }
 
-.offcanvas .btn:hover {
-	background-color: var(--menu-hover);
-	color: var(--menu-text);
+.offcanvas .btn-close:focus, .offcanvas .btn-close:hover {
+    color: var(--accent-glow) !important;
+    background: none !important;
+    outline: none;
+    box-shadow: 0 0 8px var(--accent-glow);
 }
 
 #offcanvasMenu .offcanvas-header {
@@ -401,8 +413,8 @@ menu.hidden {
     top: 10px;
     left: 10px;
     display: flex;
-    flex-direction: column;
-    justify-content: center; 
+    flex-direction: row;
+    justify-content: flex-start; 
     align-items: center;
     gap: 15px;
 }
@@ -430,6 +442,175 @@ menu.hidden {
 	border: 2px solid var(--accent-glow);
 	box-shadow: 0 0 32px 2px var(--accent-glow);
 	color: var(--text-color);
+}
+
+.modal {
+	z-index: 9999 !important;
+}
+
+.modal-backdrop {
+	z-index: 9998 !important;
+}
+
+/* Ensure modal is visible and positioned correctly */
+.modal.show {
+	display: block !important;
+	opacity: 1 !important;
+}
+
+.modal-dialog {
+	position: relative;
+	z-index: 10000 !important;
+	margin: 1.75rem auto;
+	max-width: 500px;
+}
+
+/* Fix potential overlay issues */
+.offcanvas.show ~ .modal {
+	z-index: 10001 !important;
+}
+
+/* Ensure modal backdrop doesn't interfere */
+.modal-backdrop.show {
+	opacity: 0.5 !important;
+}
+
+/* CUSTOM MODAL SYSTEM - No Bootstrap dependencies */
+.custom-modal {
+	position: fixed !important;
+	top: 0 !important;
+	left: 0 !important;
+	width: 100vw !important;
+	height: 100vh !important;
+	z-index: 99999 !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	pointer-events: auto !important;
+}
+
+.custom-modal[style*="display: none"] {
+	display: none !important;
+}
+
+.custom-modal-backdrop {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.7);
+	cursor: pointer;
+}
+
+.custom-modal-content {
+	position: relative;
+	background: var(--panel-background);
+	border-radius: 18px;
+	border: 2px solid var(--accent-glow);
+	box-shadow: 0 0 32px 2px var(--accent-glow);
+	color: var(--text-color);
+	width: 90%;
+	max-width: 500px;
+	max-height: 80vh;
+	overflow-y: auto;
+	z-index: 100000;
+	margin: auto;
+	transform: translateY(0);
+}
+
+.custom-modal-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px;
+	border-bottom: 1px solid var(--panel-border);
+}
+
+.custom-modal-header h1 {
+	margin: 0;
+	color: var(--accent-glow);
+	font-family: 'Digital-7 Mono', monospace, Arial, sans-serif;
+	font-size: 2rem;
+	letter-spacing: 2px;
+	text-shadow: var(--glow);
+}
+
+.custom-close-btn {
+	background: none;
+	border: none;
+	color: var(--text-color);
+	font-size: 2rem;
+	cursor: pointer;
+	padding: 0;
+	width: 30px;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 4px;
+	transition: background-color 0.3s;
+}
+
+.custom-close-btn:hover {
+	background-color: var(--accent-glow);
+	color: white;
+}
+
+.custom-modal-body {
+	padding: 20px;
+}
+
+.setting-header {
+	font-weight: bold;
+	font-size: 1.2rem;
+	margin-bottom: 15px;
+	margin-top: 0;
+	color: var(--text-color);
+}
+
+.setting-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 15px;
+	gap: 15px;
+}
+
+.setting-row label {
+	flex: 1;
+	font-weight: normal;
+	color: var(--text-color);
+}
+
+.setting-row input,
+.setting-row select {
+	flex: 1;
+	padding: 8px;
+	background: #23234a;
+	color: #fff;
+	border: 1.5px solid var(--accent-glow);
+	border-radius: 6px;
+	box-shadow: 0 0 6px 0 var(--accent-glow) inset;
+	transition: border 0.2s, box-shadow 0.2s;
+}
+
+.setting-row input:focus,
+.setting-row select:focus {
+	outline: none;
+	border-color: var(--accent-glow);
+	box-shadow: 0 0 8px 0 var(--accent-glow);
+}
+
+.setting-divider {
+	border: 1px solid #89929d;
+	margin: 20px 0;
+}
+
+.custom-modal-footer {
+	padding: 20px;
+	border-top: 1px solid var(--panel-border);
+	text-align: center;
 }
 .modal-header, .modal-footer {
 	border: none;
@@ -611,16 +792,40 @@ input[type="checkbox"] {
 
 }
 
+/* Make sure sidebar is always visible */
+.sidebar {
+	display: block !important;
+}
+
+.top-left-menu {
+	display: flex !important;
+	flex-direction: row !important;
+	align-items: center !important;
+	gap: 15px !important;
+	position: absolute !important;
+	top: 10px !important;
+	left: 10px !important;
+	z-index: 2000 !important;
+}
+
 @media(max-width: 768px) {
 
 	body {
         overflow: hidden;
     }
 	.sidebar {
-		display: none;
+		display: block;
 	}
 	#mobileMenuButton {
 		display: inline-block;
+	}
+	.top-left-menu {
+		top: 15px;
+		left: 15px;
+		gap: 10px;
+	}
+	.menu-label {
+		font-size: 0.9rem;
 	}
 	#preliminary-step h0 {
 		font-size: 6rem !important;
@@ -769,4 +974,17 @@ input[type="checkbox"] {
   min-height: 100vh;
   width: 100%;
   text-align: center;
+}
+
+.menu-label {
+  display: block;
+  margin-top: 0px;
+  margin-left: 5px;
+  color: var(--menu-text);
+  font-family: 'Digital-7 Mono', monospace, Arial, sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-shadow: 0 0 8px var(--accent-glow);
+  user-select: none;
 }
