@@ -21,8 +21,10 @@ async function loginUser(username, password) {
 
   if (response.ok) {
       const data = await response.json();
-      document.cookie = `access_token=${data.access_token}; Secure; SameSite=Strict`;
-      document.cookie = `refresh_token=${data.refresh_token}; Secure; SameSite=Strict`;
+      // Set cookies for tokens, only add Secure if using HTTPS
+      const isSecure = window.location.protocol === 'https:';
+      document.cookie = `access_token=${data.access_token}; SameSite=Strict${isSecure ? '; Secure' : ''}`;
+      document.cookie = `refresh_token=${data.refresh_token}; SameSite=Strict${isSecure ? '; Secure' : ''}`;
       console.log(data.access_token);
       console.log(data.refresh_token);
 
@@ -43,12 +45,11 @@ async function loginUser(username, password) {
       await sendOtp(username);
       document.getElementById('validate-otp-btn').addEventListener('click', async () => {
         const otp = document.getElementById('otp-input').value;
-
-        const otpValid = await validateOtp(otp);
+        const otpValid = await validateOtp(otp, data.access_token);
         if (otpValid) {
               // L'OTP est validé, procéder à la connexion
-              document.cookie = `access_token=${data.access_token}; Secure; SameSite=Strict`;
-              document.cookie = `refresh_token=${data.refresh_token}; Secure; SameSite=Strict`;
+              document.cookie = `access_token=${data.access_token}; SameSite=Strict${isSecure ? '; Secure' : ''}`;
+              document.cookie = `refresh_token=${data.refresh_token}; SameSite=Strict${isSecure ? '; Secure' : ''}`;
               console.log(data.access_token);
               console.log(data.refresh_token);
       
@@ -71,13 +72,13 @@ async function loginUser(username, password) {
               Icon.style.display = "none";
               updateStatus("isOnline", true);
         } else {
-          alert('Invalid or expired OTP. Please try again.');
+          document.getElementById('otp-message').innerText = 'Invalid or expired OTP. Please try again.';
         }
       });
   } else {
     const errorData = await response.json();
     console.error('Error logging in:', errorData);
-    alert('Login failed: ' + errorData.detail);
+    document.getElementById('login-message').innerText = 'Login failed: ' + (errorData.detail || 'Unknown error.');
   }
 }
 

@@ -18,21 +18,21 @@ export async function sendOtp(username) {
     
     if (response.status === 200) {
         console.log("OTP sent to your email.");
-        alert("OTP sent to your email.");
+        document.getElementById('otp-message').innerText = "OTP sent to your email.";
     } else {
         console.error("Erreur lors de l'envoi de l'OTP:", responseData.error);
-        alert(responseData.error || "Une erreur est survenue.");
+        document.getElementById('otp-message').innerText = responseData.error || "Une erreur est survenue.";
     }
 }
 
-export async function validateOtp(otp) {
-    const jwtToken = getCookie('access_token');
+export async function validateOtp(otp, accessToken) {
     const csrftoken = getCookie('csrftoken');
     if (!otp) {
-        alert('Please enter the OTP.');
+        document.getElementById('otp-message').innerText = 'Please enter the OTP.';
         return;
     }
-
+    // Use passed token or fallback to cookie
+    const jwtToken = accessToken || getCookie('access_token');
     const response = await fetch('http://localhost:8000/api/validate-otp/', {
         method: 'POST',
         headers: {
@@ -42,22 +42,20 @@ export async function validateOtp(otp) {
         },
         body: JSON.stringify({ otp: otp }),
     });
-
     if (!response.ok) {
         const text = await response.text();
-        alert(error.message || 'Invalid OTP or expired.');
-        console.error('OTP Validation Failed:', error);
+        document.getElementById('otp-message').innerText = text || 'Invalid OTP or expired.';
+        console.error('OTP Validation Failed:', text);
         return;
     }
-
     const responseData = await response.json();
-
     if (response.status === 200) {
         console.log("OTP validé avec succès");
+        document.getElementById('otp-message').innerText = '';
         return true;
     } else {
         console.error("Erreur de validation OTP:", responseData.message);
-        alert(responseData.message || "L'OTP est invalide ou expiré.");
+        document.getElementById('otp-message').innerText = responseData.message || "L'OTP est invalide ou expiré.";
         return false;
     }
 }

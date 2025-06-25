@@ -39,7 +39,7 @@ export function logout( points, game, walls, players, ball) {
             game.isactive = false;
             hideGame(walls, players, ball);
             document.getElementById(`menu`).style.display = 'block';
-
+            ensureMenuFlex();
         }
     });
 }
@@ -189,6 +189,8 @@ export function finishTournament(walls, players, balls, game) {
         document.getElementById('alignment-container-points').style.display = 'none';
         document.getElementById('PPlayerOne').textContent = '0';
         document.getElementById('PPlayerTwo').textContent = '0';
+        document.getElementById('menu').style.display = 'block';
+        ensureMenuFlex();
     });
 }
 
@@ -530,3 +532,32 @@ document.addEventListener("DOMContentLoaded", function() {
 //         });
 //     });
 // });
+
+// Helper to always restore menu flex layout
+function ensureMenuFlex() {
+    const menu = document.getElementById('menu');
+    if (menu) {
+        menu.style.display = 'flex';
+        menu.style.flexDirection = 'row';
+        menu.style.gap = '32px';
+    }
+}
+
+// Also after resetGame (if called from elsewhere)
+export function resetGameMenuShow() {
+    document.getElementById('menu').style.display = 'block';
+    ensureMenuFlex();
+}
+
+// MutationObserver to always restore flex if menu is shown by any means
+if (typeof MutationObserver !== 'undefined') {
+    const menu = document.getElementById('menu');
+    if (menu) {
+        const observer = new MutationObserver(() => {
+            if (menu.style.display !== 'none') {
+                ensureMenuFlex();
+            }
+        });
+        observer.observe(menu, { attributes: true, attributeFilter: ['style'] });
+    }
+}

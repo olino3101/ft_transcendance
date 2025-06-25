@@ -9,10 +9,9 @@ import { cubeMaterial } from './utils';
 // init la scene de base les etoiles, skybox, camera pos, etc
 export function initScene(scene, camera, renderer) {
 	renderer.setPixelRatio(window.devicePixelRatio);
-	// renderer.setSize(window.innerWidth, window.innerHeight);
-	renderer.setSize(700, 700);
-	document.body.appendChild(renderer.domElement);
-
+	renderer.setSize(900, 700);
+	renderer.domElement.style.display = 'block';
+	renderer.domElement.style.margin = '0 auto';
 	camera.position.setZ(30);
 	
 	// add stars and the skybox

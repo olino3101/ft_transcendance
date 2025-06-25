@@ -52,6 +52,7 @@
                 <label for="password" id="pw-start">Password</label>
                 <input type="password" id="password" aria-label="Enter password" class="form-control">
               </div>
+              <div id="login-message" class="text-center text-danger mt-2" style="min-height:1.5em;"></div>
             </div>
             <div class="modal-footer">
               <!-- <a href="#" id="reset-password-link" class="text-primary forgot-password-link" style="font-size: 0.9rem;">Forgot your password?</a> -->
@@ -79,6 +80,7 @@
                 <label for="otp" id="codeInput">Enter the 6-digit code sent to your email:</label>
                 <input type="text" id="otp-input" maxlength="6">
               </div>
+              <div id="otp-message" class="text-center text-danger mt-2" style="min-height:1.5em;"></div>
             </div>
             <div class="modal-footer">
               <button id="validate-otp-btn" class="btn btn-primary">Validate OTP</button>
@@ -134,16 +136,22 @@
     </div>
 
     <div id="main-content" style="display: none;">
-          <div id="menu">
-            <button id="singlePlayer" class="btn btn-primary">Single Player</button>
-            <button id="multiPlayer" class="btn btn-primary">Multi Player</button>
-            <button id="isFourPlayer" class="btn btn-primary">2 vs 2</button>
-          </div>
-
-
-          <!-- CANVAS-GAME -->
-          <div id="game-container">
+          <!-- CANVAS-GAME with overlay menu -->
+          <div id="game-container" style="position:relative;">
+            <div id="menu">
+              <button id="singlePlayer" class="btn btn-primary">Single Player</button>
+              <button id="multiPlayer" class="btn btn-primary">Multi Player</button>
+              <button id="isFourPlayer" class="btn btn-primary">2 vs 2</button>
+            </div>
             <canvas id="bg"></canvas>
+            <div id="alignment-container-points" class="text-center">
+              <div id="PPlayerOne" class="PPlayerOne text-center text=light">
+                  <div class="text-dark"></div>
+              </div>
+              <div id="PPlayerTwo" class="PPlayerTwo text-center">
+                <div class="text-dark"></div>
+              </div>
+            </div>
           </div>
 
           <div id="startRestart">
@@ -201,25 +209,8 @@
               <div class="text-dark">Playing</div>
             </div>
           </div>
-          <!-- POINTS -->
-          <div id="alignment-container-points" class="text-center">
-            <div id="PPlayerOne" class="PPlayerOne text-center text=light">
-                <div class="text-dark"></div>
-            </div>
-
-            <div id="PPlayerTwo" class="PPlayerTwo text-center">
-              <div class="text-dark"></div>
-            </div>
-          </div>
         <!-- BOUTTON MENU MOBILE --><!-- Button trigger modal desktop -->
         <!-- Bouton Menu Mobile -->
-        <div id="mobileMenuButton">
-          <a data-bs-toggle="offcanvas" href="#offcanvasMenu" id="offcanvasBtn" tabindex="0" role="button" aria-label="Open main menu">
-            <i class="bi bi-list"></i>
-          </a>
-        </div>
-
-        <!-- OPEN SIDEBAR FIXE --><!-- Button trigger modal desktop -->
         <div class="sidebar">
           <div class="top-left-menu">
             <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasMenu" id="offcanvasBtn" tabindex="-1" role="button" aria-label="Open main menu">
