@@ -36,12 +36,6 @@ This project gave us hands-on experience with:
 - Working with databases and API design
 - Containerizing applications for easy deployment
 
-## 📸 Game Preview
-
-Check out what the game looks like in action:
-
-![Pong Game](./transcendence.png)
-
 ## 📚 Project Requirements
 
 Want to see the full project specifications? Check out the [official subject document](./en.subject.pdf) for all the technical requirements and constraints we had to meet.
