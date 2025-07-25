@@ -48,6 +48,7 @@ It works on both desktop and mobile.
 ## 📚 Project Specs
 
 The full requirements are in the [subject document](./en.subject.pdf).
+The technologies and framework used in the subject changed from when we did it.
 
 ---
 
